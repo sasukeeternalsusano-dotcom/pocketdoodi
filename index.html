@@ -11,7 +11,25 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%;overflow:hidden;overscroll-behavior:none}
 body{position:fixed;inset:0;font-family:var(--body);color:var(--ink);touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
-  background:radial-gradient(circle at 12% 15%,#ffb36b 0,transparent 48%),radial-gradient(circle at 88% 85%,#8fd67f 0,transparent 52%),radial-gradient(circle at 85% 10%,#c6ee9f 0,transparent 35%),radial-gradient(circle at 10% 90%,#ffd08f 0,transparent 40%),linear-gradient(160deg,#ffcf9e,#d8f3c4)}
+  background:linear-gradient(125deg,#ffb36b,#ffd59e,#c8eea6,#8fd67f,#ffe0a8,#ffa45c,#b6e69a);background-size:400% 400%;animation:bgs 22s ease-in-out infinite}
+@keyframes bgs{0%{background-position:0% 30%}50%{background-position:100% 70%}100%{background-position:0% 30%}}
+.blob{position:absolute;border-radius:50%;pointer-events:none;opacity:.75;will-change:transform}
+.blob.o{width:70vmax;height:70vmax;left:-25vmax;top:-25vmax;background:radial-gradient(circle,#ff9f4acc 0,#ff9f4a00 65%);animation:dr1 17s ease-in-out infinite alternate}
+.blob.g{width:75vmax;height:75vmax;right:-28vmax;bottom:-28vmax;background:radial-gradient(circle,#6fcf6acc 0,#6fcf6a00 65%);animation:dr2 21s ease-in-out infinite alternate}
+.blob.y{width:45vmax;height:45vmax;left:40%;top:55%;background:radial-gradient(circle,#ffd36b99 0,#ffd36b00 65%);animation:dr3 13s ease-in-out infinite alternate}
+@keyframes dr1{to{transform:translate(30vmax,22vmax) scale(1.15)}}
+@keyframes dr2{to{transform:translate(-26vmax,-20vmax) scale(.9)}}
+@keyframes dr3{to{transform:translate(-35vmax,-30vmax) scale(1.3)}}
+@media (prefers-reduced-motion:reduce){body,.blob{animation:none}}
+#start{position:fixed;inset:0;z-index:8;display:flex;align-items:center;justify-content:center;background:#3d234044;transition:opacity .5s}
+#start.gone{opacity:0;pointer-events:none}
+#start .sc{text-align:center;background:#fff8f0ee;border-radius:26px;padding:22px 26px 18px;box-shadow:0 16px 40px #3d234055;max-width:300px}
+#start b{display:block;font:400 15px var(--px);color:#c74b78;text-shadow:2px 2px 0 #ffd6e4;margin-bottom:10px}
+#start p{margin:0 0 16px;font:800 16px/1.35 var(--body)}
+#go{width:96px;height:96px;border-radius:50%;border:0;cursor:pointer;font-size:40px;color:#fff;padding-left:8px;background:radial-gradient(circle at 35% 30%,#ffb3cc,#ff6f9a 60%,#e2537f);box-shadow:inset 0 -6px 0 #0002,inset 0 5px 0 #fff8,0 6px 0 #c74b78,0 0 0 0 #ff6f9a88;animation:pulse 1.6s ease-out infinite}
+#go:active{transform:translateY(3px)}
+@keyframes pulse{to{box-shadow:inset 0 -6px 0 #0002,inset 0 5px 0 #fff8,0 6px 0 #c74b78,0 0 0 22px #ff6f9a00}}
+#start small{display:block;margin-top:14px;font:800 12px var(--body);color:#8a5a75}
 .deco{position:absolute;font-size:22px;opacity:.35;animation:fl 7s ease-in-out infinite}
 @keyframes fl{50%{transform:translateY(-14px) rotate(8deg)}}
 #dev{position:absolute;left:50%;top:50%;width:360px;height:680px;transform:translate(-50%,-50%);transform-origin:center}
@@ -74,6 +92,7 @@ body{position:fixed;inset:0;font-family:var(--body);color:var(--ink);touch-actio
 </style>
 </head>
 <body>
+<div class="blob o"></div><div class="blob g"></div><div class="blob y"></div>
 <div class="deco" style="left:6%;top:12%">💗</div><div class="deco" style="right:8%;top:22%;animation-delay:-2s">🍕</div><div class="deco" style="left:10%;bottom:14%;animation-delay:-4s">✨</div><div class="deco" style="right:9%;bottom:10%;animation-delay:-1s">💛</div>
 <div id="dev">
   <div class="ring"></div>
@@ -96,6 +115,7 @@ body{position:fixed;inset:0;font-family:var(--body);color:var(--ink);touch-actio
   </div>
 </div>
 <audio id="bgm" src="music/traverse.mp3" loop preload="auto"></audio>
+<div id="start"><div class="sc"><b>POCKET DOODI</b><p>Shh. He's still asleep.<br>Wake him up?</p><button id="go" aria-label="Play">▶</button><small>🎵 Turn your sound on</small></div></div>
 <div id="modal"><div class="card" id="card"></div></div>
 <script>
 (function(){
@@ -216,11 +236,14 @@ function nextSpecial(){var t=her(),today=dnum(t),best=null;
  return best}
 
 /* =============== sound =============== */
-var AC=null,unlocked=false,BGM=$("bgm");
-function music(){try{if(S.music!==false&&unlocked&&!document.hidden){BGM.volume=asleep()?.12:.35;if(BGM.paused){var pr=BGM.play();if(pr&&pr.catch)pr.catch(function(){})}}else if(!BGM.paused)BGM.pause()}catch(e){}}
+var AC=null,unlocked=false,BGM=$("bgm"),MG=null,SFXV=2.4;
+function mvol(){return asleep()?.07:.2}
+function music(){try{if(S.music!==false&&unlocked&&!document.hidden){if(MG)MG.gain.value=mvol();else BGM.volume=mvol();if(BGM.paused){var pr=BGM.play();if(pr&&pr.catch)pr.catch(function(){})}}else if(!BGM.paused)BGM.pause()}catch(e){}}
 document.addEventListener("visibilitychange",function(){music()});
-function unlock(){unlocked=true;music();if(!AC){try{AC=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(AC&&AC.state==="suspended")AC.resume()}
-function tone(f,d,dl,type,v){if(!S.snd||!AC)return;try{var t=AC.currentTime+(dl||0),o=AC.createOscillator(),g=AC.createGain();o.type=type||"square";o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(v||.04,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+d+.03)}catch(e){}}
+function unlock(){if(!AC){try{AC=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(AC&&AC.state==="suspended")AC.resume();
+ if(AC&&!MG){try{var src=AC.createMediaElementSource(BGM);MG=AC.createGain();MG.gain.value=mvol();src.connect(MG);MG.connect(AC.destination)}catch(e){MG=null}}
+ unlocked=true;music()}
+function tone(f,d,dl,type,v){if(!S.snd||!AC)return;try{var t=AC.currentTime+(dl||0),o=AC.createOscillator(),g=AC.createGain();o.type=type||"square";o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(Math.min(.3,(v||.04)*SFXV),t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+d+.03)}catch(e){}}
 function sfx(n){({tap:function(){tone(880,.06)},chomp:function(){tone(220,.08,0,"square",.05)},
  love:function(){[523,659,784,1047].forEach(function(f,i){tone(f,.14,i*.09,"triangle",.06)})},
  win:function(){[659,784,988].forEach(function(f,i){tone(f,.12,i*.08)})},
@@ -228,7 +251,8 @@ function sfx(n){({tap:function(){tone(880,.06)},chomp:function(){tone(220,.08,0,
  night:function(){[784,659,523].forEach(function(f,i){tone(f,.2,i*.15,"triangle",.05)})},
  star:function(){[1319,1568,1976,2637].forEach(function(f,i){tone(f,.18,i*.07,"triangle",.04)})},
  fanfare:function(){[523,659,784,1047,784,1047,1319].forEach(function(f,i){tone(f,.2,i*.12,"triangle",.06)})},
- blip:function(){tone(1200,.02,0,"square",.015)}})[n]()}
+ blip:function(){tone(1200,.02,0,"square",.015)},
+ alarm:function(){[0,.18,.36,.7,.88,1.06].forEach(function(d){tone(1568,.1,d,"square",.035)})}})[n]()}
 
 /* =============== speech =============== */
 var Q=[],full="",shown=0,tcl=0,adv=0,talking=false,who="DOODI";
@@ -360,7 +384,9 @@ function coupleHug(){var mid=Math.max(22,Math.min(46,(dx+9+hx+8)/2));HG={phase:"
 function hugLine(){var l=pick(L.couple);return l.replace("{n}",S.squash)}
 var dx=31,tx=31,parts=[],A=null,tick0=performance.now(),blinkAt=0,pokeN=0,pokeT=0,woke=false,
  hx=52,htx=52,star=null,nextStar=performance.now()+6000,candles=true,entering=null,noteT=0;
-function asleep(){return S.sleep||(hisNight()&&!woke)}
+var preStart=true,wakeT=0;
+function wakeBed(){return wakeT&&performance.now()-wakeT<1500}
+function asleep(){return preStart||S.sleep||(hisNight()&&!woke)}
 function need(){var n=null,lo=30;["tummy","love","fun","energy"].forEach(function(k){if(S[k]<lo){lo=S[k];n=k}});return n}
 function outfit(){var se=season(),md=her().md;
  if(se.xmasFit)return{n:"Christmas jumper",c:"#c8243a",d:"#a01c2e",sweater:1};
@@ -416,11 +442,12 @@ function bed(){R(15,38,50,14,"#a0643c");R(15,36,4,18,"#7a4a2a");R(61,40,4,14,"#7
 function giftReady(){return S.giftDate!==her().date}
 function giftBox(t){var gx=17,gy=48+(Math.floor(t/300)%2?0:-1);R(gx,gy,8,6,"#ff5c93");R(gx-1,gy-2,10,2,"#ff7ea8");R(gx+3,gy-2,2,8,K.gold);R(gx+2,gy-4,1,2,K.gold);R(gx+5,gy-4,1,2,K.gold);if(Math.floor(t/250)%3===0){R(gx-2,gy-5,1,1,"#fff");R(gx+10,gy-1,1,1,"#fff")}}
 function draw(t){
- var k=room(t),sl=asleep(),y=24+(A?0:Math.round(Math.sin(t/260))),hw=has("her"),H=hat();
- if(sl){bed();head(19,21,{eyes:"sleep",mouth:"flat",hat:H});if(hw)danHead(35,22,{eyes:"sleep",hat:H==="santa"?"santa":H});R(28,36,34,11,"#ff8fb1");for(var i=30;i<62;i+=5)R(i,39,2,2,"#ffb3c7");R(28,36,34,1,"#ff6f9a");
-  [0,1,2].forEach(function(n){var p=((t/900)+n/3)%1;if(p<.95)zz(39+n*3+p*6+(hw?12:0),18-p*14,p)});
+ var k=room(t),wb=wakeBed(),eo=wb&&performance.now()-wakeT>750,sl=asleep()||wb,y=24+(A?0:Math.round(Math.sin(t/260))),hw=has("her"),H=hat();
+ if(sl){bed();head(19,21,{eyes:eo?"wide":"sleep",mouth:eo?"o":"flat",hat:H});if(hw)danHead(35,22,{eyes:eo?"norm":"sleep",hat:H==="santa"?"santa":H});R(28,36,34,11,"#ff8fb1");for(var i=30;i<62;i+=5)R(i,39,2,2,"#ffb3c7");R(28,36,34,1,"#ff6f9a");
+  if(!eo)[0,1,2].forEach(function(n){var p=((t/900)+n/3)%1;if(p<.95)zz(39+n*3+p*6+(hw?12:0),18-p*14,p)});
+  if(eo){var jy=Math.round(Math.sin(t/60));R(27,11+jy,2,5,K.gold);R(27,17+jy,2,2,K.gold);if(hw){R(42,12+jy,2,5,K.gold);R(42,18+jy,2,2,K.gold)}}
   if(giftReady())giftBox(t);
-  X.fillStyle=k.day?"rgba(20,20,60,.25)":"rgba(10,10,40,.55)";X.fillRect(0,0,80,60);R(6,7,18,15,k.s+"55");
+  if(!eo){X.fillStyle=k.day?"rgba(20,20,60,.25)":"rgba(10,10,40,.55)";X.fillRect(0,0,80,60);R(6,7,18,15,k.s+"55")}
   parts.forEach(drawPart);return}
  var f={eyes:"norm",mouth:"smile",blush:false,hat:H},pose="down",st,o=outfit(),hf={eyes:"norm",mouth:"smile",hat:H},hpose="down";
  var n=need();if(n){f.eyes="sad";f.mouth="frown"}
@@ -440,6 +467,7 @@ function draw(t){
   else if(A.k==="crown"){f.eyes="heart";f.blush=true}
   else if(A.k==="boop"){f.eyes="happy";f.blush=true}
   else if(A.k==="herboop"){hf.eyes="happy";f.eyes="heart";f.blush=true}
+  else if(A.k==="stretch"){pose="up";f.eyes=p<.6?"blink":"happy";f.mouth=p<.6?"o":"open";y-=p>.6?Math.abs(Math.round(Math.sin(t/90)*2)):0;if(hw){hpose="up";hf.eyes=p<.6?"blink":"happy";hf.mouth="open"}}
   else if(A.k==="groggy"){f.eyes=p<.5?"blink":"norm";f.mouth="o"}
   if(p>=1){var cb=A.cb;A=null;if(cb)cb()}}
  else if(n&&!talking)bubble=n;
@@ -614,6 +642,7 @@ window.addEventListener("resize",fit);fit();
 var T=her(),newDay=S.lastDay!==T.date;
 if(newDay){S.lastDay=T.date;S.days++;store()}
 sndLabel();clocks();setInterval(clocks,15000);
+function buildGreet(){
 var greet=[];
 if(first)greet=L.intro.slice();
 if(newDay&&!first){greet.push("Day "+S.days+" in your pocket. 💛");
@@ -623,12 +652,16 @@ else if(!first){if(away>=24)greet.push(Math.floor(away/24)+(away>=48?" days":" d
  else if(away>=3)greet.push("You were gone "+Math.round(away)+" hours. I counted. Every single one.");
  else if(away>=.25)greet.push("Back already? You missed me. Admit it.")}
 var sp=special();
-if(asleep()){greet.push("Zzz... (It's "+him().hm+" in RAK. Tap him to wake him up.)")}
-else{if(newDay||first)greet.push(sp?sp.line:DAYLINE[him().wd]);else if(sp)greet.push(sp.line);greet.push(ctxLine())}
+if(hisNight())greet.push("...baby girl? It's "+him().hm+" in RAK. ...Okay. I'm up. For you, always.");
+{if(newDay||first)greet.push(sp?sp.line:DAYLINE[him().wd]);else if(sp)greet.push(sp.line);greet.push(ctxLine())}
 if(giftReady()&&!first)greet.push(S.gifts<ITEMS.length?"There's a present on the floor for you. 🎁 Tap it.":"Your daily coupon is on the floor. 🎁");
 if(!S.notes[T.date]&&!first)greet.push("And a new note up top. ✉️");
-if(sp&&(sp.k==="case"||sp.k==="herbday"||sp.k==="ny"||sp.k==="val"))setTimeout(function(){burst(26,40,30);sfx("fanfare")},900);
-setTimeout(function(){say(greet)},400);
+if(sp&&(sp.k==="case"||sp.k==="herbday"||sp.k==="ny"||sp.k==="val"))setTimeout(function(){burst(26,40,30);sfx("fanfare")},400);
+return greet;}
+$("say").style.visibility="visible";$("txt").textContent="Zzz...";
+$("go").onclick=function(){if(!preStart)return;unlock();sfx("alarm");$("start").className="gone";
+ preStart=false;woke=true;S.sleep=false;store();wakeT=performance.now();clocks();$("txt").textContent="";
+ setTimeout(function(){sfx("win");dx=tx=31;anim("stretch",1300,{lock:true,cb:function(){var g=buildGreet();anim("cheer",900);say(g)}})},1500)};
 requestAnimationFrame(loop);
 })();
 </script>
