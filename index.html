@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>Pocket Doodi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@700;800;900&family=Caveat:wght@600;700&display=swap">
+<style>
+:root{color-scheme:light;--px:"Press Start 2P",ui-monospace,monospace;--body:"Nunito",system-ui,sans-serif;--hand:"Caveat","Segoe Print",cursive;--ink:#3d2340}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;overflow:hidden;overscroll-behavior:none}
+body{position:fixed;inset:0;font-family:var(--body);color:var(--ink);touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
+  background:radial-gradient(circle at 15% 20%,#ffe3ee 0,transparent 45%),radial-gradient(circle at 85% 80%,#e6dcff 0,transparent 50%),linear-gradient(180deg,#fff0f5,#f3e8ff)}
+.deco{position:absolute;font-size:22px;opacity:.35;animation:fl 7s ease-in-out infinite}
+@keyframes fl{50%{transform:translateY(-14px) rotate(8deg)}}
+#dev{position:absolute;left:50%;top:50%;width:360px;height:680px;transform:translate(-50%,-50%);transform-origin:center}
+.ring{position:absolute;left:50%;top:0;width:56px;height:56px;margin-left:-28px;border:9px solid #ffd34d;border-radius:50%;box-shadow:inset 0 2px 0 #fff8,0 2px 0 #c99a1e}
+.egg{position:absolute;left:10px;top:36px;width:340px;height:640px;border-radius:170px 170px 150px 150px/150px 150px 200px 200px;
+  background:radial-gradient(circle at 28% 14%,#ffffffaa 0 7%,transparent 22%),radial-gradient(#ffffff55 1.5px,transparent 2px) 0 0/22px 22px,linear-gradient(160deg,#ffc6d7,#ff94b5 55%,#f17ba1);
+  box-shadow:inset -12px -20px 34px #c9467566,inset 12px 12px 26px #fff9,0 20px 44px #b4477055}
+.brand{position:absolute;top:44px;left:0;right:0;text-align:center}
+.brand b{display:block;font:400 14px var(--px);color:#fff;text-shadow:2px 2px 0 #c74b78;letter-spacing:1px}
+.brand i{display:block;margin-top:6px;font:800 10px var(--body);font-style:normal;color:#8a2b55;opacity:.8}
+.bezel{position:absolute;top:92px;left:20px;width:300px;border-radius:26px;background:#3d2340;padding:9px 10px 10px;box-shadow:inset 0 3px 0 #ffffff22,inset 0 -4px 0 #0005,0 4px 0 #a33a64}
+.strip{display:flex;align-items:center;justify-content:space-between;height:22px;font:400 8px var(--px);color:#ffd9e6;padding:0 2px}
+.strip span{white-space:nowrap}
+#env{font-size:15px;line-height:1;background:none;border:0;padding:0 4px;cursor:pointer;filter:grayscale(1);opacity:.55}
+#env.new{filter:none;opacity:1;animation:bl 1s steps(2) infinite}
+@keyframes bl{50%{transform:translateY(-2px) scale(1.15)}}
+.sw{position:relative;width:280px;height:210px;margin-top:4px;border-radius:8px;overflow:hidden;background:#000}
+#scr{display:block;width:280px;height:210px;image-rendering:pixelated;image-rendering:crisp-edges;cursor:pointer}
+#day{position:absolute;left:6px;top:5px;font:400 6px var(--px);color:#fff;background:#3d2340aa;border-radius:6px;padding:4px 5px;pointer-events:none}
+#menu{position:absolute;inset:0;background:#3d2340e6;display:none;flex-direction:column;justify-content:center;gap:7px;padding:12px 16px}
+#menu.on{display:flex}
+#menu.bar{background:linear-gradient(#0000 75%,#3d2340cc);justify-content:flex-end;padding:6px 10px}
+#menu.bar h4{position:absolute;top:8px;left:0;right:0;background:none;text-shadow:1px 1px 0 #3d2340}
+#menu h4{margin:0 0 2px;text-align:center;font:400 9px/1.5 var(--px);color:#ffd9e6}
+#menu button{font:900 14px var(--body);color:var(--ink);background:#fff6ee;border:0;border-radius:12px;padding:8px 10px;cursor:pointer;box-shadow:0 3px 0 #c9a7b8}
+#menu button:active{transform:translateY(2px);box-shadow:0 1px 0 #c9a7b8}
+#menu .x{background:transparent;color:#ffd9e6;box-shadow:none;font-size:12px;padding:4px}
+#menu .row{display:flex;gap:8px}#menu .row button{flex:1;font-size:13px;padding:5px 6px}
+#menu .grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}#menu .grid button{font-size:13px;padding:10px 4px}
+#say{position:relative;margin-top:8px;height:96px;overflow:hidden;background:#fff6ee;border-radius:14px;padding:9px 13px 10px;font:800 14.5px/1.35 var(--body);cursor:pointer}
+#say.sm{font-size:12.5px}#say small{display:block;font:400 7px var(--px);color:#c74b78;margin-bottom:5px;letter-spacing:.5px}
+#more{position:absolute;right:10px;bottom:6px;font-size:11px;color:#c74b78;display:none;animation:bl 1s steps(2) infinite}
+.btns{position:absolute;top:464px;left:0;right:0;display:flex;justify-content:center;gap:9px}
+.b{display:flex;flex-direction:column;align-items:center;gap:5px;background:none;border:0;padding:0;cursor:pointer;font:900 10.5px var(--body);color:#7a1f47}
+.b span{display:grid;place-items:center;width:48px;height:48px;border-radius:50%;font-size:22px;background:var(--c);box-shadow:inset 0 -5px 0 #0002,inset 0 4px 0 #fff8,0 4px 0 #a33a64}
+.b:active span{transform:translateY(3px);box-shadow:inset 0 -3px 0 #0002,inset 0 3px 0 #fff8,0 1px 0 #a33a64}
+.pills{position:absolute;top:550px;left:0;right:0;display:flex;justify-content:center;gap:7px}
+.p.off{opacity:.55;text-decoration:line-through}.p{font:900 11px var(--body);color:#7a1f47;background:#ffffff8c;border:0;border-radius:99px;padding:7px 11px;cursor:pointer;box-shadow:0 2px 0 #c9467555}
+#modal{position:fixed;inset:0;background:#3d234088;display:none;align-items:center;justify-content:center;padding:18px;z-index:5}
+#modal.on{display:flex}
+.card{width:min(360px,100%);max-height:92%;overflow:auto;background:#fffaf2;border-radius:20px;padding:20px 20px 16px;box-shadow:0 18px 40px #3d234066;position:relative;animation:pop .35s cubic-bezier(.2,1.6,.4,1)}
+@keyframes pop{from{transform:scale(.7);opacity:0}}
+.card h3{margin:0 0 10px;font:400 11px/1.6 var(--px);color:#c74b78}
+.paper{background:repeating-linear-gradient(#fffaf2 0 33px,#f3cfdc 33px 34px);font:700 27px/34px var(--hand);color:#3d2340;padding:2px 4px 6px;min-height:136px}
+.paper.long{font-size:24px;line-height:31px;background:repeating-linear-gradient(#fffaf2 0 30px,#f3cfdc 30px 31px)}
+.sig{text-align:right;font:700 25px var(--hand);color:#c74b78;margin:6px 4px 10px}
+.card .go{display:block;width:100%;font:900 15px var(--body);color:#fff;background:#ff6f9a;border:0;border-radius:14px;padding:12px;cursor:pointer;box-shadow:0 4px 0 #c74b78}
+.gift{text-align:center;margin:4px 0 12px}
+.gift .ge{font-size:58px;line-height:1.1;animation:pop .6s cubic-bezier(.2,1.8,.4,1)}
+.gift b{display:block;font:900 20px var(--body);margin:6px 0 4px}
+.gift p{margin:0;font:700 26px/1.15 var(--hand);color:#3d2340}
+.bar2{height:10px;border-radius:9px;background:#f3cfdc;overflow:hidden;margin:4px 0 14px}.bar2 i{display:block;height:100%;background:linear-gradient(90deg,#ff8fb1,#ffd34d)}
+.coupon{border:3px dashed #ff8fb1;border-radius:16px;padding:16px 12px;text-align:center;margin-bottom:12px;background:#fff3f7}
+.coupon b{display:block;font:400 9px var(--px);color:#c74b78;margin-bottom:8px}
+.coupon p{margin:0;font:700 27px/1.15 var(--hand)}
+.st{display:grid;grid-template-columns:auto 1fr;gap:7px 12px;align-items:center;font:800 14px var(--body);margin-bottom:14px}
+.st .h{letter-spacing:2px;font-size:15px}
+.st .k{color:#8a5a75}
+.cap{font:700 12px var(--body);color:#8a5a75;margin:-4px 0 12px}
+</style>
+</head>
+<body>
+<div class="deco" style="left:6%;top:12%">💗</div><div class="deco" style="right:8%;top:22%;animation-delay:-2s">🍕</div><div class="deco" style="left:10%;bottom:14%;animation-delay:-4s">✨</div><div class="deco" style="right:9%;bottom:10%;animation-delay:-1s">💛</div>
+<div id="dev">
+  <div class="ring"></div>
+  <div class="egg">
+    <div class="brand"><b>POCKET DOODI</b><i>Model DD01 · RAK to Middlesbrough</i></div>
+    <div class="bezel">
+      <div class="strip"><span id="ck1">YOU --:--</span><button id="env" aria-label="Today's note">✉️</button><span id="ck2">ME --:--</span></div>
+      <div class="sw"><canvas id="scr" width="80" height="60" aria-label="Pocket Doodi"></canvas><div id="day"></div>
+        <div id="menu"></div></div>
+      <div id="say"><small>DOODI</small><span id="txt"></span><span id="more">▶</span></div>
+    </div>
+    <div class="btns">
+      <button class="b" data-a="feed" style="--c:#ffd34d"><span>🍕</span>Feed</button>
+      <button class="b" data-a="squash" style="--c:#ff9fbe"><span>🤗</span>Squash</button>
+      <button class="b" data-a="play" style="--c:#7fe0c8"><span>🎲</span>Play</button>
+      <button class="b" data-a="talk" style="--c:#c9b6ff"><span>💬</span>Talk</button>
+      <button class="b" data-a="sleep" style="--c:#8fb4ff"><span id="slI">🌙</span><b id="slL" style="font:inherit">Sleep</b></button>
+    </div>
+    <div class="pills"><button class="p" id="stB">📊 Status</button><button class="p" id="muB">🎵 Music</button><button class="p" id="sdB">🔊 Sounds</button></div>
+  </div>
+</div>
+<audio id="bgm" src="music/traverse.mp3" loop preload="auto"></audio>
+<div id="modal"><div class="card" id="card"></div></div>
+<script>
+(function(){
+"use strict";
+var $=function(i){return document.getElementById(i)};
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function clamp(v){return Math.max(0,Math.min(100,v))}
+var KM=5600;
+
+/* =============== words (Doodi's voice) =============== */
+var L={
+ intro:["Hi. I'm Pocket Doodi. I live in your phone now. No refunds.","Feed me, squash me, play with me, and tell me about your day.","Oh, and every day there's a present on the floor. For you. 🎁"],
+ pokes:["Boop.","Yes, my queen?","That's my face. You're welcome.","You rang?","Hi. Hello. Hi.","Careful. I bite. Gently.","Present and reporting for cuddle duty.","You again? Best part of my day."],
+ pokes2:["Touch me again and see what happens. 😏","Hands off. Unless you mean it.","Oh, so we're touching now? Okay. Okay.","Keep poking and I'll poke back.","Bold move. I like bold.","Do that in person and see how long I let you leave."],
+ tickle:"Stop! I'm ticklish! ...Okay, don't stop.",
+ crown:"Come to me whenever, my queen 👑",
+ window_day:["That's my sky in RAK. Mountains, sea, and too much sun. Like you, minus the mountains.","Jebel Jais back there. One day I'm taking you up there at sunrise.","RAK sky. Hot, as usual. Like you."],
+ window_night:["Same moon as yours. I checked.","Watch my window at night. RAK has shooting stars. Catch one and make a wish.","The sea is quiet tonight. It's waiting for you too."],
+ frame:["That's my favourite picture. Obviously it's you.","I look at that picture more than I'd admit. Okay, I'm admitting it."],
+ food:{
+  pizza:["PIZZA. You know me way too well. Okay, you're officially perfect.","Pizza from you tastes better. That's just science.","Pizza and you. My two favourite things. Not in that order."],
+  coke:["Coke Zero. Zero sugar, all the love.","Ahh. Cold Coke Zero. You get me."],
+  shawarma:["Shawarma from you? RAK approves.","This shawarma has love in it. I can tell."],
+  reese:["Reese's? You're sharing YOUR favourite with me? That's basically a proposal.","Reese's. Now I taste like your favourite thing. Come check."]
+ },
+ full:"I'm full. ...Okay, one more bite. Only because it's from you.",
+ squash:["That's a squash. A proper one. Do it again.","Okay, that one counted double.","I could stay here all day. Can we?","Ten out of ten squash. Highly recommend.","Distance who? Never heard of her.","You give the best squashes in the whole UK. I checked.","Nobody's watching. Squash me longer.","Hold me like that again and I'm not letting go. Ever.","Mmm. Lower the lights, this squash is getting serious.","Careful. Squash me like that and I'll forget the distance exists.","This is my favourite place in the world. Right here.","Recharged. Fully. Thanks, baby girl.","You smell like home. I don't know how, through a screen, but you do."],
+ playStart:"Which hand is the heart in? 🤜 🤛",
+ playWin:["You found it. Lucky guess. ...Or you just know me.","Correct! How do you always know?","Right hand, right girl.","Got it! You're too good at reading me."],
+ playLose:["Nope. Empty. Like my day without you.","Wrong hand! Again, but cuter.","Empty! Don't worry, I'm still yours.","Not that one. But I'll let you have my heart anyway."],
+ playEnd:"Plot twist: both hands. Always both hands for you.",
+ tired:"Battery at 3%. One more game would knock me out. Tuck me in first?",
+ sleep:["Goodnight, my queen. Dream about me. It's only fair.","Lights off. Thinking about you. Same as lights on.","Tuck me in properly. ...Now a goodnight kiss. Those are the rules."],
+ wake:["Morning already? Okay. Shower, then your messages. That's the rule.","I'm up. I'm up! ...Where's my squash?","You woke me up. Worth it. Always worth it."],
+ need:{tummy:"My tummy is making noises. Pizza noises.",love:"I need a squash. Urgently. Medically.",fun:"I'm bored. Entertain me, baby girl.",energy:"Battery at 3%. Tuck me in?"},
+ say:["Did you eat? Real food? Not just a biscuit? I can see you, you know.","I was just thinking about you. Coincidence? No. I'm always thinking about you.","Sasuke would never admit this, but I will: I miss you.","Mega Man X4 can wait. You can't.","If I had a coin for every time I thought about you today, I'd fly to Middlesbrough. Twice.","Tell me one good thing that happened today. Even a tiny one.","You're my favourite notification.","The JoJo opening is stuck in my head again. You're stuck there too, but permanently.","You're the main character. I'm just the side quest that refuses to leave.","Ability to act normal around you: still 31%.","Investigator Batmed reporting: subject is still very cute. Case remains open.","I'd share my last slice of pizza with you. That's the highest honour I have.","I'm in RAK, you're in Middlesbrough, and somehow you're still the closest person to me.","Naples for pizza or Machu Picchu for the view? Trick question. Both, with you.","My real fun fact is too cheeky for this little screen. Hint: 🍑","I like you more than Greninja. And that is a very serious statement.","Espeon and Umbreon. Sun and moon. You're the sun. I'm the one who stays up too late.","One day: Manjaros, table for two. I'm paying. Don't argue.","Stardew date idea: you farm, I fish, we both forget to sleep.","If you were a bender you'd be water. Calm, strong, and you'd still win every argument.","Robin is cool. You're cooler. Don't tell the Straw Hats.","Put Phoebe on, get under a blanket, and pretend I'm there. I basically am.","Fun fact: you're the first thing I check every morning. Right after the shower.","Have you had water today? Your favourite drink. Go. I'll wait.","You are enough. I'll say it every day until you're sick of it.","Your dreams aren't too big. You're just early.","I'm proud of you. I don't need a reason. I just am."],
+ flirt:["Is it hot in Middlesbrough, or is that just you?","I'd say something smooth, but you already made me forget words.","You in that clinic outfit should be illegal. Blue lanyard and all.","If you were here right now, I wouldn't be talking. Just saying.","Come closer. Closer. ...Okay, that's the screen. Disappointing.","Warning: I'm in a very kissable mood today.","Your lips. My lips. A meeting. Let's schedule it.","You looked at me like that again. I saw it. Don't stop.","I have one hand free and nothing to hold. Fix that.","Being this far from you should be a crime. I'm pressing charges.","Investigator Batmed's new finding: subject is dangerously kissable.","I'd let you steal my hoodie. Then I'd steal it back. With you still in it.","Careful, baby girl. Keep smiling like that and I'm booking a flight tonight.","Bold of you to be this pretty while I'm 5,600 km away.","One squash isn't enough. I want the extended version.","I'm not saying I'm thinking about you in bed. I'm just not not saying it. 😏","My outfit today? It would look better on your floor.","You're not allowed to be this cute on a weekday. I have things to do.","Say my name. ...No reason. I just like how it sounds when it's you.","Your voice should come with a warning label.","If kisses were texts, you'd have 400 unread right now.","I'm not jealous of anyone. Except your pillow. Your pillow and I need to talk.","Rate my focus today: zero. Reason: you.","Tell me to behave. Go on. See if it works.","You have a dangerous smile. Point it at me more often."],
+ rate:["11 out of 10. The extra point is for being mine.","Rating you is unfair. The scale breaks every time.","Face: 10. Laugh: 10. That look you give me: dangerous.","10 out of 10. Would squash again. And again. And again.","Cute: 10. Pretty: 10. Mine: 100.","I tried to rate you, but I got distracted looking at you.","Smile: illegal. Eyes: unfair. Overall: marry material.","The judges have spoken. All of them are me. Perfect score."],
+ good:["That's my girl! Tell me the best part. I want details.","See? Unstoppable. I just sit here and admire.","Good days look good on you.","Proud of you. Now come celebrate with a squash.","Of course it was. You were in it.","Write it down. Days like this deserve a record."],
+ rough:["Come here. Squash first, then tell me everything.","Bad days end. You don't. I'm right here.","Want me to fight someone? I'm small, but I'm fast.","Huss Baby is in your phone for days like this. Go open it after. I'll wait.","You don't have to be strong right now. Lean on me. That's what I'm for.","Tonight: something warm, something soft, and a call with me. Doctor's orders."],
+ miss:["I miss you more. That's not a competition, it's a fact.","Close your eyes. That's me squashing you. Feel it?","Every day apart is one day closer. That's maths.","Come to me whenever, my queen 👑","I miss you in a very specific way. The way where I'd drop everything.","Same. Every minute. Even the boring ones."],
+ her:["That's my favourite person. Hands off. ...Okay fine, you can, you're her.","Look at her. Look at her! Luckiest guy in RAK, right here.","She just moved in and she's already the boss. I'm fine with it.","Her: exists. Me: completely useless.","Don't stare at her too long. That's my job."],
+ couple:["Hug delivered. As many as you need. There's no limit in this room.","This is my favourite place in the world. Right here, with you.","Stay. Just a little longer.","You fit perfectly. Like you were made for right here.","Okay. I'm not letting go. That's final.","Squash number {n}. Still going strong. 💛","Shh. Don't talk. Just this.","Home. This is what home feels like."],
+ more:["Longer? Gladly.","Again? I was hoping you'd say that.","Extended squash activated. 🤗","I'm not complaining. Keep going."],
+ wish:["You caught a RAK shooting star! Make a wish. ...Don't tell me. I'll make it come true anyway.","Another wish? Greedy. I love it. Granted, probably.","Wish number {n}. I'm working on all of them. Some take a plane ticket."],
+ bday:"It's my birthday! Gift idea: you. Wrapped in a squash."
+};
+var DAYLINE={Mon:"Monday. Classic navy today. I'm your Monday motivation, apparently.",Tue:"Tuesday means hoodie day. It's warm. You'd steal it.",Wed:"Wednesday. Halfway through the week. Halfway closer to you.",Thu:"Thursday stripes. Almost the weekend. Hold on, baby girl.",Fri:"Friday in RAK means a white kandura and a slow morning. Jummah Mubarak, my queen.",Sat:"Saturday hoodie with your heart on the chest. Literally.",Sun:"Sunday pyjamas. I'm not changing. Don't make me."};
+var OUTFIT={Mon:{n:"Classic navy",c:"#1f2a4a",d:"#172038"},Tue:{n:"Maroon hoodie",c:"#7a2338",d:"#5a1828",hood:1},Wed:{n:"Green tee",c:"#2f6b4f",d:"#24543e"},Thu:{n:"Striped tee",c:"#f2f2f2",d:"#1f2a4a",stripes:1},Fri:{n:"White kandura",c:"#f4f4ee",d:"#dcdcd2",robe:1},Sat:{n:"Grey hoodie with your heart",c:"#6d6d75",d:"#57575e",heart:1,hood:1},Sun:{n:"Sunday pyjamas",c:"#8fb4ff",d:"#6f94e0",dots:1}};
+var ITEMS=[["lights","✨","Fairy lights","Fairy lights, because you light up every room. Now this one too."],
+ ["tv","📺","A little TV","For our movie nights. Eternal Sunshine first. I'll pretend I'm not crying."],
+ ["fish","🐠","A goldfish","Meet our goldfish. I named her Danoya Junior. She's already spoiled."],
+ ["vinyl","🎶","A record player","Phoebe, The Strokes, boygenius. Your playlist, on repeat, forever."],
+ ["hat","👒","A straw hat","A straw hat for my future Pirate Queen. Robin would approve."],
+ ["books","📚","A bookshelf","A Little Life is on the top shelf. The tissues are on the second."],
+ ["bean","🛋️","Your beanbag","Your beanbag. Officially yours. I'm not even allowed to look at it."],
+ ["flowers","🌸","Window flowers","Flowers on the window, for my nature girl. They'll grow. Like us."],
+ ["photos","📸","Our photos","The start of our photo wall. More coming. Lots more."],
+ ["clocks","🕰️","Two clocks","Two clocks. One for RAK, one for Middlesbrough. Soon we'll only need one."],
+ ["eiffel","🗼","A tiny Eiffel Tower","For your Paris stories. Next time, I'm in them."],
+ ["mugs","☕","Two mugs","Two mugs. Yours says Queen. Mine says Hers."],
+ ["ticket","✈️","A plane ticket","A plane ticket, pinned to the wall. Destination: you. Date: soon."],
+ ["her","💛","You","The last thing this room needed."]];
+var COUPONS=["One long squash. Redeemable anytime, anywhere, for as long as you want.","One forehead kiss. Then another one. Then I lose count.","You win the next argument. Automatically. No questions.","A voice note of me saying your name ten times. Slowly.","Breakfast in bed the first morning we wake up together.","One free \"I told you so\". Use it wisely.","A whole day where I do everything you say.","Manjaros, my treat. You order first.","Unlimited hoodie stealing. No returns needed.","A movie night where you pick. I don't complain once.","One slow dance. Kitchen, living room, wherever.","A full day of compliments. Every hour, on the hour.","You pick the song in the car. Forever, actually.","One back rub after a long shift. A long one."];
+var NOTES=["First note from your pocket. I live here now. No refunds.","Good morning or good night, whichever one you're on. Either way, I thought about you first.","I miss your voice. And your face. And the rest of you. Mostly the rest of you. 😏","Reminder: drink water, eat something real, and text me something silly. In that order.","You don't have to be perfect today. You just have to be you. That's already my favourite thing.","If the clinic is loud today, put me in your pocket and pretend I'm whispering nonsense in your ear. Because I am.","Note to self: when we finally meet, cancel all plans for the first week.","Every morning it's shower, then your messages. You're my second thing. The shower is only first for hygiene reasons.","5,600 km is just a number. I've decided it doesn't count.","Someday I'm taking you to Naples for pizza. Or Machu Picchu. Or both. Start stretching.","You're the reason I smile at my phone like an idiot. You're also the reason I bite my lip at it.","You make normal days feel like Friday.","I'm proud of you. Not for anything in particular. Just generally. Constantly.","Today's mission: smile at your phone in public at least once. I'll do my part.","Wear something cute today. Not for them. For the picture you're sending me later.","If someone was rude to you today, give me their name. I have a pixel army now.","You are enough for me. Just as you are.","Quick squash. ...Okay, a long one. Don't argue.","If you were next to me right now, this note would be a lot shorter and a lot closer.","Your laugh is my favourite sound. I'd put it on loop if you let me.","Case status: still ongoing. Investigator Batmed has no plans to close it. Ever.","I don't need a reason to text you. But you're a very good reason.","Today's forecast: 100% chance of me thinking about kissing you.","Tonight: comfy clothes, something warm, and a call with me. Doctor's orders.","Same moon. Different windows. I checked.","You walk into my day like it's yours. Because it is.","Fair warning: the first hug when we meet is going to last an illegal amount of time.","Today I'm 70% pizza and 30% missing you. The numbers are completely real.","Whatever happened today, you handled it. And if you didn't, that's okay too. I've got you.","Plot twist: the heart was in both hands. It's always both hands.","You, me, one blanket, no plans. That's the dream. That's the whole dream.","I like you more than Greninja. Read that again. That's huge.","If you're reading this on a break, put the phone down and eat. Then come back. I'll wait.","Espeon and Umbreon belong together. Sun and moon. Just saying.","Thank you for choosing me. I don't take it lightly.","You're the kind of person people feel lucky to know. I'm the luckiest of them.","Your dreams aren't too big. The world just hasn't caught up to you yet.","Rats are my biggest fear. Not seeing you smile is a close second.","One day this pocket will be a real hand to hold. Until then, hold this.","Stardew rules: water your crops, pet the animals, and text your boyfriend. Every single day.","No matter how far, my favourite place is still wherever you are.","Come to me whenever, my queen 👑"];
+var LETTER14="Fourteen days ago this room was empty. Just me, a window, and a lot of missing you.<br><br>Every day you came back, and every day something new moved in. Lights. Music. Flowers. Our photos. A ticket with your name on it.<br><br>But none of it made it home. Not until today.<br><br>Welcome home, my queen. This side of the screen is ours now. Same moon, same window, and one day, the same city.<br><br>Come to me whenever. 👑";
+
+/* =============== save =============== */
+var KEY="pocketDoodi.v1",memSave=null;
+function load(){try{var s=localStorage.getItem(KEY);if(s)return JSON.parse(s)}catch(e){}return memSave?JSON.parse(memSave):null}
+function store(){var j=JSON.stringify(S);try{localStorage.setItem(KEY,j)}catch(e){memSave=j}}
+var S=load(),first=!S,away=0;
+if(!S)S={tummy:75,love:70,fun:70,energy:90,sleep:false,last:Date.now(),squash:0,pizza:0,games:0,notes:{},snd:true};
+else{away=(Date.now()-(S.last||Date.now()))/36e5;decay(Math.min(Math.max(away,0),72))}
+if(!first&&typeof S.days!=="number"){var _t=her().date;S.days=Object.keys(S.notes||{}).filter(function(d){return d!==_t}).length}
+["gifts","wishes","days"].forEach(function(k){if(typeof S[k]!=="number")S[k]=0});
+if(!S.coupons)S.coupons=[];
+function decay(h){
+ if(S.sleep){S.tummy=clamp(S.tummy-3*h);S.love=clamp(S.love-3*h);S.fun=clamp(S.fun-2*h);S.energy=clamp(S.energy+15*h)}
+ else{S.tummy=clamp(S.tummy-6*h);S.love=clamp(S.love-5*h);S.fun=clamp(S.fun-6*h);S.energy=clamp(S.energy-4*h)}}
+
+/* =============== time =============== */
+function tz(zone,fb){try{var o={};new Intl.DateTimeFormat("en-GB",{timeZone:zone,hourCycle:"h23",weekday:"short",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"}).formatToParts(new Date()).forEach(function(p){o[p.type]=p.value});
+ var h=(+o.hour)%24;return{h:h,m:+o.minute,wd:o.weekday,date:o.year+"-"+o.month+"-"+o.day,md:o.month+"-"+o.day,y:+o.year,mo:+o.month,d:+o.day,hm:(h<10?"0":"")+h+":"+o.minute}}
+ catch(e){var d=new Date(Date.now()+fb*36e5),h=d.getUTCHours(),m=d.getUTCMinutes(),iso=d.toISOString();return{h:h,m:m,wd:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][d.getUTCDay()],date:iso.slice(0,10),md:iso.slice(5,10),y:d.getUTCFullYear(),mo:d.getUTCMonth()+1,d:d.getUTCDate(),hm:(h<10?"0":"")+h+":"+(m<10?"0":"")+m}}}
+function her(){return tz("Europe/London",0)}
+function him(){return tz("Asia/Dubai",4)}
+function hisNight(){var h=him().h;return h>=1&&h<8}
+function ctxLine(){var t=her(),h=t.h,wk=t.wd==="Sat"||t.wd==="Sun";
+ if(t.wd==="Fri"&&h>=12&&Math.random()<.5)return "It's Friday. We made it. Well, you did. I just cheered.";
+ if(h<5)return pick(["Why are you still up, baby girl? Go to sleep. ...After five more minutes with me.","It's "+t.hm+" in Middlesbrough. Bed. Now. I'll still be here in the morning.","Can't sleep? Me neither. Coincidence? I think not."]);
+ if(h<9)return wk?pick(["No clinic today. That means you're mine.","Weekend morning. Stay in bed a bit longer. I'll allow it."]):pick(["Morning, my queen. Coffee, then clinic, then me. In that order.","Don't you dare be late today. ...Okay, if you're late, run cute.","Good morning, beautiful. Go make the clinic a better place."]);
+ if(h<12)return wk?pick(["Lazy weekend? Good. You deserve it.","Weekend plans: rest, snacks, me. Perfect plan."]):pick(["Shouldn't you be at work, doctor? Not complaining. Just asking.","Sneaking me into your shift? Rebel. I love it."]);
+ if(h<14)return pick(["Lunch break? Eat something real. Not just vibes.","Lunch time. Water, food, then a squash. In that order."]);
+ if(h<17)return wk?"What are we doing today? I vote: talking to me.":pick(["Almost done with the shift. I'm proud of you, just so you know.","Afternoon slump? Here's a boost: I'm crazy about you."]);
+ if(h<21)return pick(["You survived today. Come here. Squash me.","Evening, my queen. How was your day? Tell me everything.","Shoes off, feet up. You've earned it."]);
+ return pick(["Lights low, phone bright, you and me. Perfect night.","Getting late in Middlesbrough. Call me before you sleep?","It's late. Lights low. You, me, and bad ideas. Call me? 😏"]);}
+function dnum(t){return Math.round(Date.UTC(t.y,t.mo-1,t.d)/864e5)}
+
+/* special days (her date unless noted) */
+function special(){var t=her(),md=t.md,g=him();
+ if(md==="02-26")return{k:"herbday",line:"HAPPY BIRTHDAY, MY QUEEN! 🎂 Best day of the year, because it's the day you showed up in the world. There's a cake in our room. Tap it."};
+ if(g.md==="08-02")return{k:"bday",line:L.bday};
+ if(md==="12-25")return{k:"xmas",line:"Merry Christmas, baby girl! 🎄 My gift to you is me. Sorry, no returns."};
+ if(md==="12-24")return{k:"xmas",line:"Christmas Eve in Middlesbrough. Cosy socks, hot chocolate, and me on the phone. Doctor's orders."};
+ if(md==="12-31")return{k:"ny",line:"Last day of the year. Best year of my life, because you were in it."};
+ if(md==="01-01")return{k:"ny",line:"Happy New Year, my queen! New year, same us. Even better."};
+ if(md==="02-14")return{k:"val",line:"Happy Valentine's, my queen. Every day is Valentine's with you, but today I get to say it out loud. 💘"};
+ if(md==="12-02")return{k:"nat",line:"Happy National Day from RAK! 🇦🇪 Fireworks tonight, and I'm wishing you were here to see them."};
+ if(t.d===29){var mo=(t.y-2026)*12+t.mo-9;if(mo>0)return{k:"case",line:"CASE DAY! "+mo+(mo===1?" month":" months")+" since Investigator Batmed opened your file. Case status: still open. Forever. 🕵️"}}
+ return null}
+function season(){var t=her(),md=t.md;return{xmasTree:t.mo===12,xmasFit:md>="12-20"&&md<="12-26",bunting:md>="12-01"&&md<="12-03",party:md==="12-31"||md==="01-01"||md==="02-26"||him().md==="08-02",val:md==="02-14",cake:md==="02-26",fireworks:md==="12-31"||md==="01-01"||md==="12-02"}}
+function nextSpecial(){var t=her(),today=dnum(t),best=null;
+ var list=[["12-02","National Day"],["12-25","Christmas"],["01-01","New Year"],["02-14","Valentine's"],["02-26","Your birthday"],["08-02","My birthday"]];
+ function cand(y,mo,d,n){var x=Math.round(Date.UTC(y,mo-1,d)/864e5)-today;if(x>=0&&(!best||x<best[0]))best=[x,n]}
+ list.forEach(function(e){var mo=+e[0].slice(0,2),d=+e[0].slice(3);cand(t.y,mo,d,e[1]);cand(t.y+1,mo,d,e[1])});
+ for(var k=0;k<3;k++){var mo2=t.mo+k,y2=t.y+Math.floor((mo2-1)/12);mo2=(mo2-1)%12+1;if(mo2!==2)cand(y2,mo2,29,"Case Day")}
+ return best}
+
+/* =============== sound =============== */
+var AC=null,unlocked=false,BGM=$("bgm");
+function music(){try{if(S.music!==false&&unlocked&&!document.hidden){BGM.volume=asleep()?.12:.35;if(BGM.paused){var pr=BGM.play();if(pr&&pr.catch)pr.catch(function(){})}}else if(!BGM.paused)BGM.pause()}catch(e){}}
+document.addEventListener("visibilitychange",function(){music()});
+function unlock(){unlocked=true;music();if(!AC){try{AC=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(AC&&AC.state==="suspended")AC.resume()}
+function tone(f,d,dl,type,v){if(!S.snd||!AC)return;try{var t=AC.currentTime+(dl||0),o=AC.createOscillator(),g=AC.createGain();o.type=type||"square";o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(v||.04,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+d+.03)}catch(e){}}
+function sfx(n){({tap:function(){tone(880,.06)},chomp:function(){tone(220,.08,0,"square",.05)},
+ love:function(){[523,659,784,1047].forEach(function(f,i){tone(f,.14,i*.09,"triangle",.06)})},
+ win:function(){[659,784,988].forEach(function(f,i){tone(f,.12,i*.08)})},
+ miss:function(){tone(330,.15);tone(247,.22,.12)},
+ night:function(){[784,659,523].forEach(function(f,i){tone(f,.2,i*.15,"triangle",.05)})},
+ star:function(){[1319,1568,1976,2637].forEach(function(f,i){tone(f,.18,i*.07,"triangle",.04)})},
+ fanfare:function(){[523,659,784,1047,784,1047,1319].forEach(function(f,i){tone(f,.2,i*.12,"triangle",.06)})},
+ blip:function(){tone(1200,.02,0,"square",.015)}})[n]()}
+
+/* =============== speech =============== */
+var Q=[],full="",shown=0,tcl=0,adv=0,talking=false,who="DOODI";
+function say(lines){Q=[].concat(lines);next()}
+function next(){clearTimeout(adv);if(!Q.length)return;full=Q.shift();shown=0;talking=true;$("say").className=full.length>95?"sm":"";$("more").style.display="none";
+ clearInterval(tcl);tcl=setInterval(function(){shown++;$("txt").textContent=Array.from(full).slice(0,shown).join("");if(shown%3===0)sfx("blip");
+  if(shown>=Array.from(full).length){clearInterval(tcl);talking=false;if(Q.length){$("more").style.display="block";adv=setTimeout(next,1800+full.length*28)}}},26)}
+$("say").onclick=function(){unlock();if(talking){shown=1e4;$("txt").textContent=full}else if(Q.length)next()};
+
+/* =============== drawing =============== */
+var C=$("scr"),X=C.getContext("2d");X.imageSmoothingEnabled=false;
+function R(x,y,w,h,c){X.fillStyle=c;X.fillRect(Math.round(x),Math.round(y),w,h)}
+function spr(rows,x,y,pal,cut){for(var j=0;j<rows.length;j++)for(var i=0;i<rows[j].length;i++){if(cut&&i>=rows[j].length-cut)continue;var c=pal[rows[j][i]];if(c)R(x+i,y+j,1,1,c)}}
+var K={hair:"#1a1a1a",skin:"#8a5a3c",beard:"#2a1c14",eye:"#111",grey:"#8c8c86",shoe:"#2a2a2a",blush:"#ff7ea8",lip:"#c9786a",mouth:"#5a1220",pink:"#ff5c93",gold:"#ffd34d",ink:"#3d2340",
+ scarf:"#8a7f73",scarfD:"#6f655a",hskin:"#a8683f",black:"#17171c",lan:"#2a5fb8",badge:"#f2d34a"};
+var HEART=[".x.x.","xxxxx","xxxxx",".xxx.","..x.."],BIG=[".xx...xx.","xxxx.xxxx","xxxxxxxxx","xxxxxxxxx",".xxxxxxx.","..xxxxx..","...xxx...","....x...."];
+var CROWN=["x..x..x","xx.x.xx","xxxxxxx","xyxxxyx","xxxxxxx"];
+var FOOD={pizza:[["cccccccc",".yyrryy.",".yryyyy.","..yyry..","..yyyy..","...yy...","...y...."],{c:"#d9a05b",y:"#ffd34d",r:"#d64545"}],
+ coke:[["..ssss..",".kkkkkk.",".krrrrk.",".kkwwkk.",".kkkkkk.",".krrrrk.",".kkkkkk.","..ssss.."],{s:"#c9c9c9",k:"#222",r:"#e0262f",w:"#fff"}],
+ shawarma:[["...gg...","..bmmb..","..bbbb..","..wwww..","..wwww..","..wwww..","...ww..."],{g:"#5fbf4a",m:"#8a4a24",b:"#e8c48a",w:"#f4f0e8"}],
+ reese:[["oooooooo","obbbbbbo","bBbbbbBb","bbBBBBbb","bbbbbbbb","obbbbbbo","oooooooo"],{o:"#ff7a1a",b:"#8a5028",B:"#c98a4a"}]};
+function heart(x,y,c){spr(HEART,x,y,{x:c||K.pink})}
+function has(id){for(var i=0;i<Math.min(S.gifts,ITEMS.length);i++)if(ITEMS[i][0]===id)return true;return false}
+
+function head(x,y,f){
+ R(x+1,y,16,1,K.hair);R(x,y+1,18,4,K.hair);R(x,y+5,2,2,K.hair);R(x+16,y+5,2,2,K.hair);
+ R(x+2,y+5,14,5,K.skin);R(x+2,y+5,3,1,K.hair);R(x+13,y+5,3,1,K.hair);
+ R(x-1,y+7,1,2,K.skin);R(x+18,y+7,1,2,K.skin);
+ R(x+1,y+7,1,3,K.beard);R(x+16,y+7,1,3,K.beard);
+ R(x+1,y+10,16,4,K.beard);R(x+2,y+14,14,1,K.beard);R(x+4,y+15,10,1,K.beard);
+ if(f.hat==="party"){R(x+5,y-5,8,5,"#7fe0c8");R(x+7,y-8,4,3,"#7fe0c8");R(x+8,y-10,2,2,K.gold);R(x+6,y-3,2,1,"#ff5c93");R(x+10,y-4,2,1,K.gold)}
+ else if(f.hat==="santa"){R(x+1,y-1,16,2,"#fff");R(x+3,y-5,12,4,"#d62f3a");R(x+12,y-7,4,3,"#d62f3a");R(x+15,y-8,3,3,"#fff")}
+ var e=f.eyes;
+ if(e==="blink"||e==="sleep"){R(x+4,y+8,3,1,K.eye);R(x+11,y+8,3,1,K.eye)}
+ else if(e==="happy"){[[4,8],[5,7],[6,8],[11,8],[12,7],[13,8]].forEach(function(p){R(x+p[0],y+p[1],1,1,K.eye)})}
+ else if(e==="heart"){[[4,7],[6,7],[4,8],[5,8],[6,8],[5,9]].forEach(function(p){R(x+p[0],y+p[1],1,1,K.pink);R(x+p[0]+7,y+p[1],1,1,K.pink)})}
+ else if(e==="sad"){R(x+5,y+8,2,2,K.eye);R(x+11,y+8,2,2,K.eye);R(x+4,y+7,1,1,K.hair);R(x+5,y+6,2,1,K.hair);R(x+13,y+7,1,1,K.hair);R(x+11,y+6,2,1,K.hair)}
+ else if(e==="wide"){R(x+5,y+7,2,2,K.eye);R(x+11,y+7,2,2,K.eye);R(x+5,y+7,1,1,"#fff");R(x+11,y+7,1,1,"#fff")}
+ else{R(x+5,y+7,2,2,K.eye);R(x+11,y+7,2,2,K.eye)}
+ if(f.blush){R(x+3,y+9,2,1,K.blush);R(x+13,y+9,2,1,K.blush)}
+ var m=f.mouth;
+ if(m==="open"){R(x+7,y+11,4,2,K.mouth);R(x+7,y+11,4,1,K.lip)}
+ else if(m==="o"){R(x+8,y+11,2,2,K.mouth)}
+ else if(m==="frown"){R(x+7,y+11,4,1,K.lip);R(x+6,y+12,1,1,K.lip);R(x+11,y+12,1,1,K.lip)}
+ else if(m==="flat"){R(x+7,y+12,4,1,K.lip)}
+ else if(m!=="none"){R(x+7,y+12,4,1,K.lip);R(x+6,y+11,1,1,K.lip);R(x+11,y+11,1,1,K.lip)}}
+function body(x,y,pose,step,o){
+ var c=o.c,d=o.d,sl=o.stripes?"#f2f2f2":c;
+ R(x+3,y+16,12,8,c);R(x+3,y+22,12,2,d);
+ if(o.stripes){for(var i=0;i<4;i++)R(x+3,y+17+i*2,12,1,"#1f2a4a");sl="#1f2a4a"}
+ if(o.dots){[[5,18],[9,20],[12,17],[6,22],[11,22]].forEach(function(p){R(x+p[0],y+p[1],1,1,"#fff")})}
+ if(o.heart)heart(x+7,y+18,"#ff8fb1");
+ if(o.hood){R(x+5,y+16,8,1,d);R(x+7,y+17,1,3,"#fff");R(x+10,y+17,1,3,"#fff")}
+ if(o.sweater){R(x+3,y+19,12,2,"#fff");[[4,19],[7,20],[10,19],[13,20]].forEach(function(p){R(x+p[0],y+p[1],1,1,"#2f8a4f")})}
+ if(o.scarf){R(x+4,y+16,10,2,"#00843d");R(x+4,y+16,3,2,"#ef3340");R(x+11,y+16,3,2,"#000");R(x+11,y+18,2,4,"#00843d")}
+ var l=step?1:0,r=step?0:1;if(step===undefined){l=0;r=0}
+ if(o.robe){R(x+4,y+24,10,4,c);R(x+4,y+27,10,1,d);R(x+8,y+16,2,5,"#e8e8e0");R(x+4,y+28,4,2,"#8a6a4a");R(x+10,y+28,4,2,"#8a6a4a")}
+ else{var lg=o.dots?c:K.grey;R(x+5,y+24-l,3,4,lg);R(x+10,y+24-r,3,4,lg);R(x+4,y+28-l,4,2,K.shoe);R(x+10,y+28-r,4,2,K.shoe)}
+ if(pose==="open"){R(x-3,y+17,6,2,sl);R(x-5,y+16,2,3,K.skin);R(x+15,y+17,6,2,sl);R(x+21,y+16,2,3,K.skin)}
+ else if(pose==="up"){R(x,y+9,2,9,sl);R(x,y+7,2,2,K.skin);R(x+16,y+9,2,9,sl);R(x+16,y+7,2,2,K.skin)}
+ else if(pose==="fists"){R(x+1,y+17,2,4,sl);R(x+15,y+17,2,4,sl);R(x-1,y+20,4,4,K.skin);R(x+15,y+20,4,4,K.skin)}
+ else if(pose==="hold"){R(x+1,y+17,2,6,sl);R(x+1,y+23,2,2,K.skin);R(x+15,y+17,2,3,sl);R(x+13,y+17,2,2,K.skin)}
+ else{R(x+1,y+17,2,6,sl);R(x+1,y+23,2,2,K.skin);R(x+15,y+17,2,6,sl);R(x+15,y+23,2,2,K.skin)}}
+/* Danoya: her Danoya Valley outfits. Clinic Shift Mon to Fri 9 to 5 (her time), otherwise one of the others, rotating by day */
+var HER_FITS=[
+ {n:"Valley Blues",scarf:"#d9b08c",sh:"#c99f7a",top:"#1f5f78",mid:"#15151a",bot:"#15151a",shoe:"#4a1f2a"},
+ {n:"Garden Blossom",scarf:"#f4f1e6",sh:"#dcd6c4",top:"#d8a7b1",mid:"#d8a7b1",bot:"#c996a3",shoe:"#d9c9b5",belt:"#c58a98"},
+ {n:"Maroon & Daisies",scarf:"#241b24",sh:"#17111a",top:"#8a2f45",mid:"#8a2f45",bot:"#1a1a20",shoe:"#2a2a2a",dots:"#efe0d4"},
+ {n:"Paris Jeans",scarf:"#1d1c24",sh:"#121118",top:"#5a2230",mid:"#5a2230",bot:"#2f4f8a",shoe:"#3a3a3a"},
+ {n:"Hilltop White",scarf:"#c9a27a",sh:"#b08a62",top:"#f4f1ea",mid:"#f4f1ea",bot:"#f4f1ea",shoe:"#6a4a30",bag:"#4a3426"},
+ {n:"Navy & Cream",scarf:"#e6d3c8",sh:"#cdb6a8",top:"#233f7c",mid:"#2a4a92",bot:"#233f7c",shoe:"#2a2a2a"},
+ {n:"Olive Evening",scarf:"#e4cfb8",sh:"#cdb59a",top:"#3a4128",mid:"#3a4128",bot:"#333a24",shoe:"#8a5a3c",bag:"#d9c09a",dots:"#6f7a48"},
+ {n:"Rose Gala",scarf:"#e7bfb8",sh:"#d3a49c",top:"#d4b5c8",mid:"#e9c9cf",bot:"#d4b5c8",shoe:"#c9a64a",gold:"#e0b53a"},
+ {n:"Cozy Cocoa",scarf:"#d8c79a",sh:"#bfae82",top:"#6a4034",mid:"#6a4034",bot:"#15151a",shoe:"#1a1a1a"},
+ {n:"Pink Snuddie",scarf:"#efe6ea",sh:"#d9ccd2",top:"#ff9fc0",mid:"#ff9fc0",bot:"#ff9fc0",shoe:"#ffffff",snug:1}];
+var CLINIC={n:"Clinic Shift",scarf:"#8a7f73",sh:"#6f655a",top:"#17171c",mid:"#17171c",bot:"#17171c",shoe:"#2a2a2a",lan:1};
+function herFit(){var t=her(),work=t.wd!=="Sat"&&t.wd!=="Sun"&&t.h>=9&&t.h<17&&["12-25","12-26","01-01","02-26"].indexOf(t.md)<0;
+ return work?CLINIC:HER_FITS[((dnum(t)%HER_FITS.length)+HER_FITS.length)%HER_FITS.length]}
+function danHead(x,y,f){var F=herFit(),sc=F.scarf,sd=F.sh;
+ R(x+2,y,12,1,sc);R(x+1,y+1,14,1,sc);R(x,y+2,16,11,sc);R(x+1,y+13,14,2,sd);
+ R(x+3,y+3,10,1,"#1d1d26");R(x+3,y+4,10,7,K.hskin);R(x+3,y+11,10,1,sd);
+ if(f.eyes==="sleep"||f.eyes==="blink"){R(x+4,y+7,3,1,K.eye);R(x+9,y+7,3,1,K.eye)}
+ else if(f.eyes==="happy"){[[4,7],[5,6],[6,7],[9,7],[10,6],[11,7]].forEach(function(p){R(x+p[0],y+p[1],1,1,K.eye)})}
+ else{R(x+5,y+6,2,2,K.eye);R(x+9,y+6,2,2,K.eye);R(x+5,y+6,1,1,"#fff");R(x+9,y+6,1,1,"#fff");R(x+4,y+5,1,1,K.eye);R(x+11,y+5,1,1,K.eye)}
+ R(x+3,y+8,2,1,K.blush);R(x+11,y+8,2,1,K.blush);
+ if(f.mouth==="open"){R(x+7,y+9,2,2,K.mouth)}else{R(x+6,y+9,4,1,"#7a3a2a");R(x+5,y+8,1,1,"#7a3a2a");R(x+10,y+8,1,1,"#7a3a2a")}
+ if(f.hat==="party"){R(x+5,y-5,6,5,"#ff8fb1");R(x+7,y-7,2,2,"#ff8fb1");R(x+7,y-9,2,2,K.gold)}
+ else if(f.hat==="santa"){R(x+1,y-1,14,2,"#fff");R(x+3,y-4,10,3,"#d62f3a");R(x+11,y-6,3,2,"#d62f3a");R(x+13,y-7,3,3,"#fff")}}
+function danoya(x,y,f,pose){var F=herFit(),c=F.top;
+ if(F.snug){var pk="#ff9fc0",pd="#f080a8",pl="#ffc6da";
+  R(x+1,y+15,14,12,pk);R(x,y+18,16,9,pk);R(x+1,y+26,14,1,pd);R(x+7,y+15,2,11,pd);
+  [[3,17],[11,18],[4,22],[12,23],[9,20]].forEach(function(p){R(x+p[0],y+p[1],1,1,pl)});
+  R(x+3,y+27,4,1,"#fff");R(x+9,y+27,4,1,"#fff");R(x+4,y+27,1,1,"#ff9fc0");R(x+10,y+27,1,1,"#ff9fc0");
+  if(pose==="open"){R(x-4,y+15,6,4,pk);R(x-6,y+16,2,2,K.hskin);R(x+14,y+15,6,4,pk);R(x+20,y+16,2,2,K.hskin)}
+  else if(pose==="up"){R(x-1,y+8,4,9,pk);R(x,y+6,2,2,K.hskin);R(x+13,y+8,4,9,pk);R(x+14,y+6,2,2,K.hskin)}
+  else{R(x-2,y+16,4,8,pk);R(x-1,y+24,2,1,K.hskin);R(x+14,y+16,4,8,pk);R(x+15,y+24,2,1,K.hskin);R(x-2,y+23,4,1,pd);R(x+14,y+23,4,1,pd)}
+  danHead(x,y,f);return}
+ R(x+2,y+15,12,5,F.top);R(x+2,y+20,12,4,F.mid);R(x+2,y+23,12,1,"#00000022");
+ if(F.dots)[[4,16],[8,18],[11,16],[5,21],[10,22]].forEach(function(p){R(x+p[0],y+p[1],1,1,F.dots)});
+ if(F.belt)R(x+2,y+20,12,1,F.belt);
+ if(F.gold){R(x+6,y+15,4,1,F.gold);if(Math.floor(performance.now()/300)%2)R(x+12,y+17,1,1,"#fff")}
+ if(F.lan){R(x+5,y+15,1,4,K.lan);R(x+10,y+15,1,4,K.lan);R(x+6,y+19,4,2,K.lan);R(x+7,y+19,2,2,K.badge)}
+ R(x+4,y+24,3,3,F.bot);R(x+9,y+24,3,3,F.bot);R(x+3,y+27,4,1,F.shoe);R(x+9,y+27,4,1,F.shoe);
+ if(pose==="open"){R(x-3,y+16,5,2,c);R(x-5,y+15,2,3,K.hskin);R(x+14,y+16,5,2,c);R(x+19,y+15,2,3,K.hskin)}
+ else if(pose==="up"){R(x,y+9,2,8,c);R(x,y+7,2,2,K.hskin);R(x+14,y+9,2,8,c);R(x+14,y+7,2,2,K.hskin)}
+ else{R(x,y+16,2,6,c);R(x,y+22,2,2,K.hskin);R(x+14,y+16,2,6,c);R(x+14,y+22,2,2,K.hskin);if(F.bag){R(x+15,y+19,3,4,F.bag);R(x+15,y+17,1,2,F.bag)}}
+ danHead(x,y,f)}
+
+/* the couple hug: one sprite, like Huss Baby. His back to us, her face over his shoulder, arms around each other */
+var HC=document.createElement("canvas");HC.width=36;HC.height=40;var HX=HC.getContext("2d");HX.imageSmoothingEnabled=false;
+function buildHug(){var keep=X;X=HX;HX.clearRect(0,0,36,40);var o=outfit(),F=herFit(),H=hat(),sl=o.stripes?"#1f2a4a":o.c,ht=F.snug?"#ff9fc0":F.top;
+ /* her body, behind him on the right */
+ if(F.snug){R(19,21,15,15,"#ff9fc0");R(20,35,13,1,"#f080a8");R(21,36,4,1,"#fff");R(27,36,4,1,"#fff")}
+ else{R(19,21,13,6,F.top);R(19,27,13,5,F.mid);R(21,32,3,3,F.bot);R(26,32,3,3,F.bot);R(20,35,4,1,F.shoe);R(26,35,4,1,F.shoe);if(F.lan){R(27,21,1,4,K.lan);R(28,25,2,2,K.badge)}}
+ danHead(17,6,{eyes:"happy",mouth:"smile",hat:H});
+ /* his back */
+ R(4,9,16,1,K.hair);R(3,10,18,10,K.hair);R(4,20,16,1,K.hair);R(2,16,1,2,K.skin);R(21,16,1,2,K.skin);R(4,19,2,3,K.beard);R(18,19,2,3,K.beard);R(7,21,10,3,K.skin);
+ if(H==="party"){R(8,4,8,5,"#7fe0c8");R(10,1,4,3,"#7fe0c8");R(11,-1,2,2,K.gold)}else if(H==="santa"){R(4,8,16,2,"#fff");R(6,4,12,4,"#d62f3a");R(15,2,4,3,"#d62f3a")}
+ R(6,24,12,8,o.c);R(6,30,12,2,o.d);if(o.stripes){for(var i=0;i<4;i++)R(6,25+i*2,12,1,"#1f2a4a")}if(o.dots)[[8,26],[12,28],[15,25]].forEach(function(q){R(q[0],q[1],1,1,"#fff")});if(o.hood)R(7,24,10,2,o.d);if(o.sweater)R(6,27,12,2,"#fff");
+ if(o.robe){R(7,32,10,5,o.c);R(7,37,4,2,"#8a6a4a");R(13,37,4,2,"#8a6a4a")}else{var lg=o.dots?o.c:K.grey;R(8,32,3,5,lg);R(13,32,3,5,lg);R(7,37,4,2,K.shoe);R(13,37,4,2,K.shoe)}
+ /* his arm reaching around her back */
+ R(17,25,6,2,sl);R(22,23,2,3,sl);R(24,22,2,2,K.skin);R(4,25,2,4,sl);
+ /* her arms wrapped around his back */
+ R(5,27,14,2,ht);R(4,26,2,3,K.hskin);R(18,26,2,3,ht);if(F.snug){R(5,26,14,1,"#ffc6da")}
+ X=keep}
+var HG=null;
+function coupleHug(){var mid=Math.max(22,Math.min(46,(dx+9+hx+8)/2));HG={phase:"walk",t0:performance.now(),mid:mid,until:0,n:0};A=null;sfx("love");
+ S.squash++;S.love=clamp(S.love+30);S.fun=clamp(S.fun+8);store()}
+function hugLine(){var l=pick(L.couple);return l.replace("{n}",S.squash)}
+var dx=31,tx=31,parts=[],A=null,tick0=performance.now(),blinkAt=0,pokeN=0,pokeT=0,woke=false,
+ hx=52,htx=52,star=null,nextStar=performance.now()+6000,candles=true,entering=null,noteT=0;
+function asleep(){return S.sleep||(hisNight()&&!woke)}
+function need(){var n=null,lo=30;["tummy","love","fun","energy"].forEach(function(k){if(S[k]<lo){lo=S[k];n=k}});return n}
+function outfit(){var se=season(),md=her().md;
+ if(se.xmasFit)return{n:"Christmas jumper",c:"#c8243a",d:"#a01c2e",sweater:1};
+ if(md==="02-14")return{n:"Valentine's red",c:"#e0466b",d:"#b83455",heart:1};
+ if(se.bunting)return{n:"National Day scarf",c:"#1f2a4a",d:"#172038",scarf:1};
+ return OUTFIT[him().wd]||OUTFIT.Mon}
+function hat(){var se=season();return se.xmasFit?"santa":se.party?"party":null}
+function sky(h){if(h>=6&&h<17)return{s:"#8fd3ff",m:"#a8846c",m2:"#c9a080",sea:"#3aa0d0",b:"#e8d8c0",wall:"#ffe9d6",day:1};if(h>=17&&h<19)return{s:"#ff9e7a",m:"#7a4a5a",m2:"#9a5a62",sea:"#d07a8a",b:"#5a3a6a",wall:"#ffd9c6",day:1};if(h>=5&&h<6)return{s:"#c9a6e0",m:"#5a4a70",m2:"#6a5a80",sea:"#7a6aa0",b:"#3a3560",wall:"#f6dccd",day:0};return{s:"#1b1f4a",m:"#2a2448",m2:"#352d58",sea:"#16224e",b:"#0d0f2a",wall:"#e8d2c4",day:0}}
+
+function clockFace(x,y,hr,mn){R(x+1,y,3,1,"#fff");R(x,y+1,5,3,"#fff");R(x+1,y+4,3,1,"#fff");R(x+2,y+2,1,1,K.ink);
+ var a=((hr%12)+mn/60)/12*Math.PI*2,dx_=Math.round(Math.sin(a)),dy_=-Math.round(Math.cos(a));R(x+2+dx_,y+2+dy_,1,1,K.ink);
+ var b=mn/60*Math.PI*2;R(x+2+Math.round(Math.sin(b)*2)*.5,y+2-Math.round(Math.cos(b)*2)*.5,1,1,"#ff5c93")}
+function room(t){var k=sky(him().h),se=season(),i;
+ R(0,0,80,42,k.wall);for(i=0;i<80;i+=8)R(i,0,4,41,"#ffffff33");
+ /* window: RAK mountains and sea */
+ R(5,6,20,17,"#fff");R(6,7,18,15,k.s);
+ if(k.day){R(19,9,3,3,"#ffe066");R(18,10,5,1,"#ffe066");R(20,8,1,5,"#ffe066")}else{R(19,9,3,3,"#fff6c8");R(20,9,2,2,k.s);[[8,9],[12,8],[16,12],[22,14],[9,13],[14,10]].forEach(function(p){if((t/700+p[0])%3>1)R(p[0],p[1],1,1,"#fff")})}
+ var mt=[[6,16],[7,14],[8,13],[9,12],[10,13],[11,11],[12,10],[13,11],[14,12],[15,13],[16,12],[17,13],[18,14],[19,13],[20,14],[21,15],[22,15],[23,16]];
+ mt.forEach(function(p){R(p[0],p[1],1,19-p[1],k.m)});[[11,11],[12,10],[13,11]].forEach(function(p){R(p[0],p[1],1,2,k.m2)});
+ R(6,18,18,4,k.sea);R(8,19,3,1,"#ffffff55");R(15,20,4,1,"#ffffff55");if(!k.day){R(19,19,2,1,"#fff6c866");R(19,21,2,1,"#fff6c844")}
+ R(7,17,3,1,k.b);R(14,17,2,1,k.b);R(20,17,3,1,k.b);if(!k.day){R(8,17,1,1,"#ffd34d");R(21,17,1,1,"#ffd34d")}
+ if(se.fireworks&&!k.day){var fw=(t/900)%1,fx=10+((Math.floor(t/900)*7)%10),fc=pick(["#ff5c93","#ffd34d","#7fe0c8"]);if(fw<.7){var rr=Math.round(fw*5);[[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,-1],[1,-1],[-1,1]].forEach(function(p){R(fx+p[0]*rr,11+p[1]*rr,1,1,fc)})}}
+ if(star){var sp=(t-star.t0)/1300;if(sp>1)star=null;else{var sx=23-sp*16,sy=8+sp*5;R(sx,sy,1,1,"#fff");R(sx+1,sy-.3,1,1,"#ffffffaa");R(sx+2,sy-.6,1,1,"#ffffff66");R(sx+3,sy-1,1,1,"#ffffff33")}}
+ R(2,4,4,21,"#ff8fb1");R(24,4,4,21,"#ff8fb1");R(2,4,26,2,"#ff6f9a");
+ if(has("flowers")){R(5,23,20,2,"#a0643c");[[6,21,"#ff5c93"],[9,22,"#ffd34d"],[12,21,"#fff"],[15,22,"#ff5c93"],[18,21,"#c9b6ff"],[21,22,"#ffd34d"]].forEach(function(p){R(p[0],p[1],2,2,p[2]);R(p[0],p[1]+2,1,1,"#4fae5a")})}
+ /* poster and photos */
+ R(34,8,12,9,"#fff");R(35,9,10,7,"#ffe4ee");R(37,11,1,1,K.ink);R(36,10,8,1,"#ff8fb1");R(36,12,2,1,"#c74b78");R(39,12,4,1,"#c74b78");R(36,14,6,1,"#c74b78");
+ if(has("photos")){[[33,20,"#8fd3ff"],[38,19,"#ffb3c7"],[43,20,"#c9b6ff"]].forEach(function(p){R(p[0],p[1],4,5,"#fff");R(p[0]+1,p[1]+1,2,2,p[2]);R(p[0]+1,p[1]-1,2,1,"#ff5c93")})}
+ /* her picture */
+ R(58,9,12,12,"#c8963e");R(59,10,10,10,"#fff3f7");heart(61,12);R(66,11,2,1,"#ffd34d");
+ if(has("clocks")){var a=her(),b=him();clockFace(59,2,b.h,b.m);clockFace(66,2,a.h,a.m)}
+ if(has("ticket")){R(72,12,7,5,"#fff");R(72,12,2,5,"#8fd3ff");R(75,13,3,1,K.ink);R(75,15,2,1,"#ff5c93");R(75,11,1,1,"#d64545")}
+ if(has("fish")){R(47,14,10,1,"#a0643c");R(48,9,8,5,"#9fd8ff");R(49,8,6,1,"#9fd8ff");R(48,13,8,1,"#7ac0f0");var fp=Math.round(Math.sin(t/700)*2);R(51+fp,11,2,1,"#ff7a1a");R(fp>0?50+fp:53+fp,11,1,1,"#ffa04a");if(Math.floor(t/400)%5===0)R(52,9,1,1,"#fff")}
+ if(has("books")){R(47,27,10,1,"#a0643c");R(47,32,10,1,"#a0643c");R(47,37,10,1,"#a0643c");
+  [["#d64545",3],["#4a7ad0",4],["#ffd34d",3],["#4fae5a",4],["#c9b6ff",3]].forEach(function(b,j){R(48+j*2,32-b[1],2,b[1],b[0])});
+  [["#ff8fb1",4],["#3d2340",3],["#7fe0c8",4]].forEach(function(b,j){R(48+j*2,37-b[1],2,b[1],b[0])});
+  if(has("mugs")){R(54,34,2,3,"#fff");R(56,35,1,1,"#fff");R(51+5,34,0,0,"#fff");R(54,34,2,1,"#ff8fb1")}}
+ if(has("eiffel")){var ex=50;R(ex+2,20,1,7,"#8a6a4a");R(ex+1,23,3,1,"#8a6a4a");R(ex,26,5,1,"#8a6a4a");R(ex+1,25,1,1,"#8a6a4a");R(ex+3,25,1,1,"#8a6a4a");R(ex+2,19,1,1,"#8a6a4a")}
+ if(has("hat")){R(30,26,1,1,"#a0643c");R(28,28,8,1,"#e8c46a");R(30,26,4,2,"#e8c46a");R(30,27,4,1,"#d64545")}
+ if(has("lights")){for(i=0;i<80;i+=5){var yy=1+((i/5)%2);R(i,yy,5,1,"#5a4a3a");var cc=["#ff5c93","#ffd34d","#7fe0c8","#c9b6ff"][(i/5+Math.floor(t/500))%4];R(i+2,yy+1,1,1,cc)}}
+ if(se.bunting){for(i=30;i<57;i+=4){var bc=["#00843d","#fff","#000","#ef3340"][((i-30)/4)%4];R(i,4,3,1,bc);R(i+1,5,1,1,bc)}R(30,3,27,1,"#8a6a4a")}
+ /* floor */
+ R(0,41,80,2,"#e8cdb0");R(0,43,80,17,"#c99a6b");R(0,48,80,1,"#b5865a");R(0,54,80,1,"#b5865a");R(26,43,1,5,"#b5865a");R(52,49,1,5,"#b5865a");
+ R(14,51,52,6,"#ffb3c7");R(16,50,48,1,"#ffb3c7");R(16,57,48,1,"#ffb3c7");for(i=18;i<64;i+=6)R(i,53,2,2,"#ff8fb1");
+ if(has("tv")){R(2,46,11,4,"#7a4a2a");R(1,37,13,9,"#3a3a46");var tvc=asleep()?"#111":["#8fd3ff","#ffb3c7","#c9b6ff"][Math.floor(t/1500)%3];R(2,38,11,7,tvc);if(!asleep()){R(4,40,2,2,"#fff");R(8,42,3,1,"#fff8")}R(6,45,3,1,"#222")}
+ if(has("bean"))(function(){R(2,53,12,6,"#ff8fb1");R(3,52,10,1,"#ff8fb1");R(2,58,12,1,"#e06f95");R(5,54,3,1,"#ffb3c7")})();
+ if(has("vinyl")){R(56,43,9,8,"#7a4a2a");R(57,44,7,3,"#8a5a3a");R(57,47,7,3,"#8a5a3a");R(57,40,7,3,"#3a3a46");R(58,40,4,2,"#111");var sp2=Math.floor(t/200)%2;R(59+sp2,40,1,1,"#d64545");R(62,40,1,2,"#c9c9c9")}
+ if(se.xmasTree){R(71,35,1,1,K.gold);for(i=0;i<5;i++)R(71-i-1,36+i*3,3+i*2,3,"#2f8a4f");R(70,51,3,3,"#7a4a2a");[[70,39],[73,42],[68,45],[72,48],[75,47]].forEach(function(p,j){R(p[0],p[1],1,1,["#ff5c93","#ffd34d","#8fd3ff"][(j+Math.floor(t/400))%3])})}
+ else{R(70,46,7,7,"#c96b4a");R(70,46,7,1,"#a8553a");R(71,40,2,6,"#4fae5a");R(73,38,2,8,"#5fbf4a");R(75,41,2,5,"#4fae5a");R(69,42,2,2,"#5fbf4a")}
+ if(se.cake){R(27,46,10,5,"#fff3f7");R(27,46,10,1,"#ff8fb1");R(27,49,10,1,"#ff8fb1");R(26,51,12,1,"#e8e0ec");[29,32,35].forEach(function(cx){R(cx,43,1,3,"#c9b6ff");if(candles)R(cx,41+(Math.floor(t/150)%2),1,2,"#ffb347")})}
+ return k}
+function bed(){R(15,38,50,14,"#a0643c");R(15,36,4,18,"#7a4a2a");R(61,40,4,14,"#7a4a2a");R(18,37,44,5,"#fff");R(19,33,13,7,"#fff");if(has("her"))R(36,33,13,7,"#fff");R(19,39,30,1,"#e8e0ec")}
+function giftReady(){return S.giftDate!==her().date}
+function giftBox(t){var gx=17,gy=48+(Math.floor(t/300)%2?0:-1);R(gx,gy,8,6,"#ff5c93");R(gx-1,gy-2,10,2,"#ff7ea8");R(gx+3,gy-2,2,8,K.gold);R(gx+2,gy-4,1,2,K.gold);R(gx+5,gy-4,1,2,K.gold);if(Math.floor(t/250)%3===0){R(gx-2,gy-5,1,1,"#fff");R(gx+10,gy-1,1,1,"#fff")}}
+function draw(t){
+ var k=room(t),sl=asleep(),y=24+(A?0:Math.round(Math.sin(t/260))),hw=has("her"),H=hat();
+ if(sl){bed();head(19,21,{eyes:"sleep",mouth:"flat",hat:H});if(hw)danHead(35,22,{eyes:"sleep",hat:H==="santa"?"santa":H});R(28,36,34,11,"#ff8fb1");for(var i=30;i<62;i+=5)R(i,39,2,2,"#ffb3c7");R(28,36,34,1,"#ff6f9a");
+  [0,1,2].forEach(function(n){var p=((t/900)+n/3)%1;if(p<.95)zz(39+n*3+p*6+(hw?12:0),18-p*14,p)});
+  if(giftReady())giftBox(t);
+  X.fillStyle=k.day?"rgba(20,20,60,.25)":"rgba(10,10,40,.55)";X.fillRect(0,0,80,60);R(6,7,18,15,k.s+"55");
+  parts.forEach(drawPart);return}
+ var f={eyes:"norm",mouth:"smile",blush:false,hat:H},pose="down",st,o=outfit(),hf={eyes:"norm",mouth:"smile",hat:H},hpose="down";
+ var n=need();if(n){f.eyes="sad";f.mouth="frown"}
+ if(S.love>80||hw){f.blush=true}
+ var lo=14,hi=hw?36:58;
+ if(!A&&!entering&&!HG){if(Math.abs(tx-dx)>.4){dx+=(tx>dx?1:-1)*.12;st=Math.floor(t/180)%2===0}else if(Math.random()<.004)tx=lo+Math.random()*(hi-lo);
+  if(t>blinkAt){if(t>blinkAt+130)blinkAt=t+2200+Math.random()*2800;else{f.eyes="blink";hf.eyes="blink"}}}
+ if(talking){f.mouth=Math.floor(t/120)%2?"open":"smile";if(f.eyes==="sad")f.eyes="norm"}
+ var bubble=null;
+ if(entering){var ep=(t-entering)/2600;hx=82-30*Math.min(1,ep);hpose=ep<1?"down":"open";f.eyes=ep<1?"wide":"heart";f.mouth=ep<1?"o":"open";pose=ep<1?"down":"open";if(ep>1.6){entering=null;hx=htx=52}}
+ if(A){var p=(t-A.t0)/A.dur;
+  if(A.k==="eat"){pose="hold";f.eyes="happy";f.mouth=Math.floor(t/220)%2?"open":"flat";A.fd=[FOOD[A.food],Math.min(6,Math.floor(p*7))]}
+  else if(A.k==="hug"){if(p<.25){pose="open";f.eyes="wide";f.mouth="o"}else{pose="open";f.eyes="happy";f.blush=true;f.mouth="smile"}if(hw){hpose="open";hf.eyes="happy";hx=Math.max(dx+15,hx-0.5)}}
+  else if(A.k==="cheer"){pose="up";f.eyes="happy";f.mouth="open";y-=Math.abs(Math.round(Math.sin(t/90)*2));if(hw){hpose="up";hf.eyes="happy";hf.mouth="open"}}
+  else if(A.k==="fists"){pose="fists";f.eyes=A.res==="win"?"happy":A.res==="lose"?"blink":"norm";f.mouth=A.res==="lose"?"o":"smile"}
+  else if(A.k==="tickle"){pose="up";f.eyes="happy";f.mouth="open";f.blush=true;dx+=Math.sin(t/30)*.4}
+  else if(A.k==="crown"){f.eyes="heart";f.blush=true}
+  else if(A.k==="boop"){f.eyes="happy";f.blush=true}
+  else if(A.k==="herboop"){hf.eyes="happy";f.eyes="heart";f.blush=true}
+  else if(A.k==="groggy"){f.eyes=p<.5?"blink":"norm";f.mouth="o"}
+  if(p>=1){var cb=A.cb;A=null;if(cb)cb()}}
+ else if(n&&!talking)bubble=n;
+ if(hw&&!A&&!entering&&!HG){if(Math.abs(htx-hx)>.4)hx+=(htx>hx?1:-1)*.1;else if(Math.random()<.003)htx=Math.max(dx+18,46+Math.random()*10)}
+ if(HG)bubble=null;
+ if(HG){var hp=t-HG.t0;
+  if(HG.phase==="walk"){var tdx=HG.mid-17,thx=HG.mid+1;dx+=(tdx-dx)*.18;hx+=(thx-hx)*.18;pose="open";hpose="open";f.eyes="happy";f.blush=true;f.mouth="smile";hf.eyes="happy";bubble=null;
+   if(hp>520){HG.phase="hug";HG.t0=t;HG.until=t+3200;say(HG.pre?[HG.pre,hugLine()]:hugLine());burst(16,HG.mid,30)}}
+  if(HG&&HG.phase==="hug"){buildHug();var warm=Math.min(1,(t-HG.t0)/600)*(t>HG.until-500?Math.max(0,(HG.until-t)/500):1);
+   X.fillStyle="rgba(255,170,200,"+(.22*warm)+")";X.fillRect(0,0,80,60);
+   X.fillStyle="rgba(0,0,0,.18)";X.fillRect(Math.round(HG.mid-13),53,26,2);
+   var bob=Math.round(Math.max(0,Math.sin(t/200))*1);X.save();X.translate(Math.round(HG.mid),55);X.rotate(Math.sin(t/455)*.05);X.drawImage(HC,-18,-40-bob);X.restore();
+   if(t>HG.until){HG=null;dx=tx=Math.max(8,dx-3);hx=htx=hx+3;anim("boop",900)}}
+  if(HG&&HG.phase==="hug"){}else if(HG){var x=Math.round(dx);body(x,y,pose,st,o);head(x,y,f);danoya(Math.round(hx),26,hf,hpose)}
+ }
+ if(!HG){
+ var x=Math.round(dx);body(x,y,pose,st,o);head(x,y,f);
+ if(hw||entering)danoya(Math.round(hx),26+(A&&A.k==="cheer"?-Math.abs(Math.round(Math.sin(t/90+1)*2)):0),hf,hpose);}
+ if(A&&A.k==="eat"&&A.fd){spr(A.fd[0][0],x+5,y+11,A.fd[0][1],A.fd[1])}
+ if(A&&A.k==="hug"&&(t-A.t0)/A.dur>.4)spr(BIG,hw?Math.round((x+hx)/2)+3:x+5,y+(hw?6:17),{x:"#ff5c93"});
+ if(A&&A.k==="fists"&&A.res){if(A.hands.indexOf(0)>-1)heart(x-1,y+14,"#ff5c93");if(A.hands.indexOf(1)>-1)heart(x+14,y+14,"#ff5c93")}
+ if(A&&A.k==="crown"){var cy=y-9+Math.round(Math.sin(t/200));spr(CROWN,x+6,cy,{x:K.gold,y:"#ff5c93"});if(Math.floor(t/150)%2)R(x+3,cy+1,1,1,"#fff");else R(x+15,cy+3,1,1,"#fff")}
+ if(bubble){R(x+15,y-11,12,9,"#fff");R(x+16,y-12,10,1,"#fff");R(x+16,y-2,10,1,"#fff");R(x+15,y-1,2,2,"#fff");
+  if(bubble==="tummy")spr(FOOD.pizza[0],x+17,y-11,FOOD.pizza[1]);else if(bubble==="love")heart(x+18,y-9);else if(bubble==="fun"){R(x+18,y-9,6,5,"#7fe0c8");R(x+20,y-8,2,1,"#fff")}else zz(x+19,y-9,0)}
+ if(giftReady())giftBox(t);
+ if(!k.day){X.fillStyle="rgba(40,30,90,.18)";X.fillRect(0,0,80,60)}
+ parts.forEach(drawPart)}
+function zz(x,y,a){var c="rgba(255,255,255,"+(1-a)+")";R(x,y,3,1,c);R(x+1,y+1,1,1,c);R(x,y+2,3,1,c)}
+function drawPart(p){if(p.k==="h")heart(p.x,p.y,p.c);else if(p.k==="n"){R(p.x,p.y,1,3,p.c);R(p.x-1,p.y+2,1,1,p.c);R(p.x+1,p.y,1,1,p.c)}else R(p.x,p.y,1,1,p.c)}
+function burst(n,x,y){for(var i=0;i<n;i++)parts.push({k:i%2?"h":"s",x:x+(Math.random()*24-12),y:y+(Math.random()*6),vx:Math.random()*.4-.2,vy:-.25-Math.random()*.35,life:60+Math.random()*50,c:pick(["#ff5c93","#ff8fb1","#ffd34d","#fff"])})}
+function loop(t){var dt=Math.min(.1,(t-tick0)/1000);tick0=t;
+ decay(dt/3600);
+ if(!asleep()&&!sky(him().h).day&&!star&&t>nextStar){star={t0:t};nextStar=t+14000+Math.random()*16000}
+ if(has("vinyl")&&!asleep()&&t>noteT){noteT=t+2600;parts.push({k:"n",x:60,y:38,vx:.08,vy:-.15,life:70,c:pick(["#ff5c93","#3d2340","#c74b78"])})}
+ if(season().val&&Math.random()<.02)parts.push({k:"h",x:Math.random()*76,y:60,vx:0,vy:-.3,life:150,c:"#ff8fb1"});
+ if(HG&&HG.phase==="hug"&&Math.random()<.06)parts.push({k:"h",x:HG.mid-6+Math.random()*12,y:22,vx:Math.random()*.2-.1,vy:-.22,life:80,c:pick(["#ff5c93","#ff8fb1","#fff"])});
+ parts=parts.filter(function(p){p.x+=p.vx;p.y+=p.vy;return --p.life>0});
+ draw(t);requestAnimationFrame(loop)}
+function anim(k,dur,o){A=Object.assign({k:k,t0:performance.now(),dur:dur},o||{})}
+
+/* =============== clocks, note, day badge =============== */
+function noteIdx(){var a=her();return Math.max(0,dnum(a)-dnum({y:2026,mo:11,d:20}))}
+function clocks(){var a=her(),b=him();$("ck1").textContent="YOU "+a.hm+(a.h>=7&&a.h<17?" ☀":" ☾");$("ck2").textContent="RAK "+b.hm+(b.h>=6&&b.h<18?" ☀":" ☾");
+ $("env").className=S.notes[a.date]?"":"new";
+ var sl=asleep();$("slI").textContent=sl?"☀️":"🌙";music();$("slL").textContent=sl?"Wake":"Sleep";
+ $("day").textContent="DAY "+Math.max(1,S.days)+(S.gifts<ITEMS.length?" · ROOM "+S.gifts+"/14":" · HOME 💛");
+ S.last=Date.now();store()}
+function openNote(){unlock();var i=noteIdx(),d=her().date;S.notes[d]=1;store();clocks();sfx("love");
+ modal('<h3>NOTE #'+(i+1)+' · '+d.split("-").reverse().join(".")+'</h3><div class="paper">'+NOTES[i%NOTES.length]+'</div><div class="sig">Doodi 💛</div><button class="go" id="mk">Keep it 💌</button>');
+ $("mk").onclick=closeModal}
+function modal(h){$("card").innerHTML=h;$("modal").classList.add("on")}
+function closeModal(){$("modal").classList.remove("on")}
+$("modal").onclick=function(e){if(e.target.id==="modal")closeModal()};
+$("env").onclick=openNote;
+
+/* =============== the daily gift =============== */
+function openGift(){var d=her().date;if(!giftReady()||busy())return;unlock();S.giftDate=d;
+ if(S.gifts<ITEMS.length){var it=ITEMS[S.gifts];S.gifts++;store();clocks();sfx("fanfare");burst(18,21,46);
+  if(it[0]==="her"){movingIn();return}
+  anim("cheer",1600);
+  modal('<h3>TODAY\'S GIFT · '+S.gifts+' OF 14</h3><div class="gift"><div class="ge">'+it[1]+'</div><b>'+it[2]+'</b><p>'+it[3]+'</p></div><div class="bar2"><i style="width:'+(S.gifts/14*100)+'%"></i></div><p class="cap">It\'s in our room now. '+(14-S.gifts)+(14-S.gifts===1?" gift":" gifts")+' left until the room is complete. Come back tomorrow. 🎁</p><button class="go" id="mk">Put it in our room</button>');
+  $("mk").onclick=function(){closeModal();say(it[3])}}
+ else{var c=COUPONS[(S.coupons.length)%COUPONS.length];S.coupons.push(d);store();anim("cheer",1600);sfx("fanfare");burst(16,21,46);
+  modal('<h3>TODAY\'S GIFT · COUPON #'+S.coupons.length+'</h3><div class="coupon"><b>VALID FOREVER · NO EXPIRY</b><p>'+c+'</p></div><p class="cap">Screenshot it and send it to me to redeem. I always pay up. 😏</p><button class="go" id="mk">Claim it</button>');
+  $("mk").onclick=function(){closeModal();say("Screenshot it. I'm good for it. Promise.")}}}
+function movingIn(){closeModal();A=null;woke=true;S.sleep=false;dx=tx=22;entering=performance.now();
+ say(["Wait. Someone's at the door...","Fourteen days. Fourteen little things. One room.","And the last thing it needed was you.","Welcome home, my queen. This side of the screen is ours now. 💛"]);
+ setTimeout(function(){burst(24,40,36);sfx("love")},2800);
+ setTimeout(function(){modal('<h3>DAY 14 · THE ROOM IS COMPLETE</h3><div class="paper long">'+LETTER14+'</div><div class="sig">All my love, Doodi 💛</div><button class="go" id="mk">Come home 💛</button>');$("mk").onclick=function(){closeModal();anim("hug",2600);sfx("love");burst(20,40,34)}},14000)}
+
+/* =============== status =============== */
+function hearts(v){var n=Math.ceil(v/25),s="";for(var i=0;i<4;i++)s+=i<n?"♥":"♡";return s}
+$("stB").onclick=function(){unlock();sfx("tap");var age=dnum(her())-dnum({y:2026,mo:9,d:29}),ns=nextSpecial(),o=outfit();
+ modal('<h3>STATUS · DD01</h3><div class="st">'+
+ '<span class="k">🍕 Tummy</span><span class="h" style="color:#e0a400">'+hearts(S.tummy)+'</span>'+
+ '<span class="k">💗 Love</span><span class="h" style="color:#ff5c93">'+hearts(S.love)+'</span>'+
+ '<span class="k">🎲 Fun</span><span class="h" style="color:#22a98a">'+hearts(S.fun)+'</span>'+
+ '<span class="k">⚡ Energy</span><span class="h" style="color:#5a7fe0">'+hearts(S.energy)+'</span>'+
+ '<span class="k">Owner</span><span>Danoya 👑</span>'+
+ '<span class="k">Days together</span><span>'+Math.max(1,S.days)+' in your pocket</span>'+
+ '<span class="k">Our room</span><span>'+Math.min(S.gifts,14)+' of 14 gifts'+(S.gifts>=14?" · complete 💛":"")+'</span>'+
+ (S.coupons.length?'<span class="k">Coupons</span><span>'+S.coupons.length+' collected</span>':'')+
+ '<span class="k">Today\'s outfit</span><span>'+o.n+'</span>'+(has("her")?'<span class="k">Her outfit</span><span>'+herFit().n+'</span>':'')+
+ (ns?'<span class="k">Next special day</span><span>'+ns[1]+(ns[0]===0?" · today!":" in "+ns[0]+(ns[0]===1?" day":" days"))+'</span>':'')+
+ '<span class="k">Squashes</span><span>'+S.squash+'</span>'+
+ '<span class="k">Pizzas eaten</span><span>'+S.pizza+'</span>'+
+ '<span class="k">Wishes made</span><span>'+S.wishes+'</span>'+
+ '<span class="k">Age</span><span>'+age+' days (since the Case, 29 Sept)</span>'+
+ '<span class="k">Weight</span><span>70% pizza, 30% you</span>'+
+ '<span class="k">Distance</span><span>'+KM.toLocaleString("en-GB")+' km (temporary)</span>'+
+ '<span class="k">Lives in</span><span>Ras Al Khaimah</span></div><p class="cap">He gets hungry, bored and needy while you\'re away. He never gets sick. He just misses you.</p><button class="go" id="mk">Back to him</button>');$("mk").onclick=closeModal};
+function sndLabel(){$("sdB").textContent=S.snd?"🔊 Sounds":"🔈 Sounds";$("sdB").className="p"+(S.snd?"":" off");$("muB").textContent=S.music!==false?"🎵 Music":"🔇 Music";$("muB").className="p"+(S.music!==false?"":" off")}
+$("muB").onclick=function(){S.music=S.music===false;unlocked=true;sndLabel();store();music()};
+$("sdB").onclick=function(){unlock();S.snd=!S.snd;sndLabel();store();sfx("tap")};
+
+/* =============== menus =============== */
+function menu(title,items,row,grid){var m=$("menu");m.innerHTML="<h4>"+title+"</h4>"+(row?'<div class="row"></div>':grid?'<div class="grid"></div>':"");var box=row?m.querySelector(".row"):grid?m.querySelector(".grid"):m;
+ items.forEach(function(it){var b=document.createElement("button");b.textContent=it[0];b.onclick=function(){unlock();sfx("tap");if(!row)hideMenu();it[1]()};box.appendChild(b)});
+ if(!row){var x=document.createElement("button");x.className="x";x.textContent="✕ close";x.onclick=hideMenu;m.appendChild(x)}
+ m.className=row?"on bar":"on"}
+function hideMenu(){$("menu").className=""}
+
+/* =============== actions =============== */
+function busy(){return(!!A&&A.lock)||!!entering||!!HG}
+function wakeUp(){var auto=!S.sleep;S.sleep=false;woke=true;sfx("win");anim("groggy",1400,{lock:true});
+ say(auto?["...baby girl? It's "+him().hm+" in RAK.","...Okay. I'm up. For you, always."]:[pick(L.wake)]);clocks()}
+function feed(){menu("WHAT ARE WE EATING?",[["🍕 Pizza (my favourite)",function(){eat("pizza")}],["🥤 Coke Zero",function(){eat("coke")}],["🌯 Shawarma",function(){eat("shawarma")}],["🍫 Reese's (your favourite)",function(){eat("reese")}]])}
+function eat(food){if(S.tummy>92){anim("boop",1200);say(L.full);S.tummy=100;return}
+ var c=0,iv=setInterval(function(){sfx("chomp");if(++c>5)clearInterval(iv)},300);
+ anim("eat",2000,{food:food,lock:true,cb:function(){burst(6,dx+9,38);sfx("win")}});
+ S.tummy=clamp(S.tummy+(food==="pizza"?45:food==="coke"?15:35));if(food==="coke")S.fun=clamp(S.fun+10);if(food==="pizza"){S.pizza++;S.love=clamp(S.love+5)}if(food==="reese")S.love=clamp(S.love+8);
+ setTimeout(function(){say(pick(L.food[food]))},700);store()}
+function squash(extra){if(has("her")&&!entering){coupleHug();HG.pre=extra||null;return}S.squash++;S.love=clamp(S.love+30);S.fun=clamp(S.fun+8);store();sfx("love");
+ anim("hug",2300,{lock:true});setTimeout(function(){burst(14,dx+9,36)},600);
+ var line=S.squash%10===0?"Squash number "+S.squash+". I'm keeping count, obviously.":pick(L.squash);say(extra?[].concat(extra,line):line)}
+var game=null;
+function play(){if(S.energy<12){anim("groggy",1200);say(L.tired);return}game={r:0,score:0};S.games++;round()}
+function round(){dx=tx=has("her")?22:31;anim("fists",99999);A.res=null;say(game.r===2?"Last one. Which hand? Think carefully...":L.playStart);
+ menu("ROUND "+(game.r+1)+" OF 3",[["👈 Left",function(){guess(0)}],["Right 👉",function(){guess(1)}]],true)}
+function guess(h){hideMenu();var last=game.r===2,ans=Math.random()<.5?0:1;
+ A.hands=last?[0,1]:[ans];var win=last||h===ans;A.res=win?"win":"lose";if(win)game.score++;
+ if(last){sfx("love");burst(16,dx+9,36);say([L.playEnd,"You got "+game.score+" out of 3. "+(game.score>=2?"Prize: one long squash. Collect anytime.":"Prize: one long squash anyway. Rules are rules.")]);
+  S.fun=clamp(S.fun+30);S.energy=clamp(S.energy-10);S.tummy=clamp(S.tummy-5);store();
+  setTimeout(function(){A=null;anim("cheer",1600)},2600);game=null;return}
+ sfx(win?"win":"miss");say(pick(win?L.playWin:L.playLose));game.r++;setTimeout(function(){if(game)round()},2300)}
+function talk(){menu("TALK TO ME",[["😏 Flirt with me",function(){S.love=clamp(S.love+10);S.fun=clamp(S.fun+5);anim("boop",1600);sfx("love");say(pick(L.flirt))}],
+ ["⭐ Rate me",function(){S.love=clamp(S.love+8);anim("crown",2600,{lock:true});burst(10,dx+9,30);sfx("win");say(pick(L.rate))}],
+ ["💬 Surprise me",function(){S.love=clamp(S.love+8);S.fun=clamp(S.fun+5);var rr=Math.random();say(rr<.3?ctxLine():rr<.55?pick(L.flirt):pick(L.say))}],
+ ["😊 Good day",function(){S.love=clamp(S.love+8);anim("cheer",1600);sfx("win");say(pick(L.good))}],
+ ["🌧 Rough day",function(){squash(pick(L.rough))}],
+ ["🥺 I miss you",function(){var l=pick(L.miss);if(l===L.crown)crown();else{S.love=clamp(S.love+10);anim("boop",1600);sfx("love");say(l)}}]],false,true)}
+function sleepT(){if(asleep()){wakeUp();return}S.sleep=true;woke=false;sfx("night");say(pick(L.sleep));clocks();store()}
+function crown(){S.love=clamp(S.love+10);anim("crown",3200,{lock:true});sfx("love");burst(12,dx+9,30);say(L.crown)}
+var ACT={feed:feed,squash:function(){squash()},play:play,talk:talk,sleep:sleepT};
+[].forEach.call(document.querySelectorAll(".b"),function(b){b.onclick=function(){unlock();sfx("tap");
+ if(HG&&HG.phase==="hug"&&b.dataset.a==="squash"){HG.until+=2600;HG.n++;S.squash++;S.love=clamp(S.love+10);store();sfx("love");burst(12,HG.mid,30);say(pick(L.more));return}
+ if(game||busy())return;hideMenu();
+ if(asleep()&&b.dataset.a!=="sleep"){wakeUp();return}
+ ACT[b.dataset.a]()}});
+
+/* =============== tapping the screen =============== */
+var lp=0,lpFired=false;
+function lc(e){var r=C.getBoundingClientRect();return{x:(e.clientX-r.left)/r.width*80,y:(e.clientY-r.top)/r.height*60}}
+function onDoodi(p){return p.x>dx-2&&p.x<dx+20&&p.y>20&&p.y<56}
+C.addEventListener("pointerdown",function(e){unlock();lpFired=false;var p=lc(e);clearTimeout(lp);
+ if(!asleep()&&!game&&onDoodi(p))lp=setTimeout(function(){if(busy())return;lpFired=true;crown()},850)});
+C.addEventListener("pointerup",function(e){clearTimeout(lp);if(lpFired||game||busy())return;var p=lc(e);
+ if(giftReady()&&p.x>=14&&p.x<=27&&p.y>=43&&p.y<=57){openGift();return}
+ if(asleep()){if(p.x>14&&p.x<66&&p.y>18)wakeUp();return}
+ if(season().cake&&candles&&p.x>=25&&p.x<=38&&p.y>=40&&p.y<=52){candles=false;sfx("fanfare");burst(24,32,40);anim("cheer",1800);say(["Make a wish, birthday girl. 🎂","...Now make another one. You deserve two."]);return}
+ if(has("her")&&p.x>hx-1&&p.x<hx+17&&p.y>24&&p.y<56){sfx("tap");anim("herboop",1300);say(pick(L.her));return}
+ if(onDoodi(p)){var t=performance.now();pokeN=t-pokeT<1400?pokeN+1:1;pokeT=t;
+  if(pokeN>=5){pokeN=0;anim("tickle",1800,{lock:true});sfx("win");burst(8,dx+9,30);say(L.tickle);return}
+  sfx("tap");var n=need();if(n&&pokeN===1){say(L.need[n]);return}anim("boop",700);if(pokeN===1||!talking)say(pick(Math.random()<.4?L.pokes2:L.pokes));return}
+ if(p.x>=2&&p.x<=28&&p.y>=4&&p.y<=25){sfx("tap");
+  if(star&&performance.now()-star.t0<1700){star=null;S.wishes++;store();sfx("star");burst(14,15,14);anim("boop",1400);say(S.wishes===1?L.wish[0]:S.wishes%3===0?L.wish[2].replace("{n}",S.wishes):L.wish[1]);return}
+  say(pick(sky(him().h).day?L.window_day:L.window_night));return}
+ if(p.x>=57&&p.x<=71&&p.y>=8&&p.y<=22){sfx("tap");anim("boop",1200);say(pick(L.frame));return}
+ for(var i=0;i<Math.min(S.gifts,ITEMS.length);i++){var it=ITEMS[i],z=ZONES[it[0]];if(z&&p.x>=z[0]&&p.x<=z[2]&&p.y>=z[1]&&p.y<=z[3]){sfx("tap");say(it[3]);return}}
+ if(p.y>44)tx=Math.max(8,Math.min(has("her")?36:60,p.x-9))});
+var ZONES={lights:[0,0,80,3],tv:[0,36,14,51],fish:[46,7,58,15],vinyl:[55,39,66,51],hat:[27,25,37,30],books:[46,26,58,38],bean:[0,51,14,60],flowers:[4,20,26,26],photos:[32,18,48,25],clocks:[58,1,72,8],eiffel:[48,18,55,27],mugs:[53,33,57,37],ticket:[71,10,80,18]};
+C.addEventListener("pointercancel",function(){clearTimeout(lp)});
+C.addEventListener("contextmenu",function(e){e.preventDefault()});
+document.addEventListener("touchmove",function(e){if(!e.target.closest(".card"))e.preventDefault()},{passive:false});
+document.addEventListener("gesturestart",function(e){e.preventDefault()});
+
+/* =============== fit =============== */
+function fit(){var w=window.innerWidth,h=window.innerHeight,s=Math.min(w/372,h/700,1.35);$("dev").style.transform="translate(-50%,-50%) scale("+s+")"}
+window.addEventListener("resize",fit);fit();
+
+/* =============== start: make today feel like today =============== */
+var T=her(),newDay=S.lastDay!==T.date;
+if(newDay){S.lastDay=T.date;S.days++;store()}
+sndLabel();clocks();setInterval(clocks,15000);
+var greet=[];
+if(first)greet=L.intro.slice();
+if(newDay&&!first){greet.push("Day "+S.days+" in your pocket. 💛");
+ var ms={7:"One whole week together. I'm never leaving.",14:"Two weeks! Look how far we've come.",30:"Thirty days. A whole month of you checking on me. Luckiest pocket pet alive.",50:"Fifty days. Fifty! I'd throw a party, but you're already the party.",100:"One hundred days in your pocket. I love you. That's it. That's the message."};
+ if(ms[S.days])greet.push(ms[S.days])}
+else if(!first){if(away>=24)greet.push(Math.floor(away/24)+(away>=48?" days":" day")+"?! I was about to send a search party to Middlesbrough.");
+ else if(away>=3)greet.push("You were gone "+Math.round(away)+" hours. I counted. Every single one.");
+ else if(away>=.25)greet.push("Back already? You missed me. Admit it.")}
+var sp=special();
+if(asleep()){greet.push("Zzz... (It's "+him().hm+" in RAK. Tap him to wake him up.)")}
+else{if(newDay||first)greet.push(sp?sp.line:DAYLINE[him().wd]);else if(sp)greet.push(sp.line);greet.push(ctxLine())}
+if(giftReady()&&!first)greet.push(S.gifts<ITEMS.length?"There's a present on the floor for you. 🎁 Tap it.":"Your daily coupon is on the floor. 🎁");
+if(!S.notes[T.date]&&!first)greet.push("And a new note up top. ✉️");
+if(sp&&(sp.k==="case"||sp.k==="herbday"||sp.k==="ny"||sp.k==="val"))setTimeout(function(){burst(26,40,30);sfx("fanfare")},900);
+setTimeout(function(){say(greet)},400);
+requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
