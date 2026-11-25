@@ -381,7 +381,8 @@ function buildHug(){var keep=X;X=HX;HX.clearRect(0,0,36,40);var o=outfit(),F=her
 var HG=null;
 function coupleHug(){var mid=Math.max(22,Math.min(46,(dx+9+hx+8)/2));HG={phase:"walk",t0:performance.now(),mid:mid,until:0,n:0};A=null;sfx("love");
  S.squash++;S.love=clamp(S.love+30);S.fun=clamp(S.fun+8);store()}
-function hugLine(){var l=pick(L.couple);return l.replace("{n}",S.squash)}
+var GENTLE=["Stay right here as long as you want.","You're safe now. Today's nearly over.","I've got you. I'm not going anywhere.","Breathe in... and out. I'm right here.","As many as you need tonight. No limit.","You did your best today. That's enough. You're enough."];
+function hugLine(){if(badDay())return pick(GENTLE);var l=pick(L.couple);return l.replace("{n}",S.squash)}
 var dx=31,tx=31,parts=[],A=null,tick0=performance.now(),blinkAt=0,pokeN=0,pokeT=0,woke=false,
  hx=52,htx=52,star=null,nextStar=performance.now()+6000,candles=true,entering=null,noteT=0;
 var preStart=true,wakeT=0;
@@ -515,7 +516,10 @@ function clocks(){var a=her(),b=him();$("ck1").textContent="YOU "+a.hm+(a.h>=7&&
  var sl=asleep();$("slI").textContent=sl?"☀️":"🌙";music();$("slL").textContent=sl?"Wake":"Sleep";
  $("day").textContent="DAY "+Math.max(1,S.days)+(S.gifts<ITEMS.length?" · ROOM "+S.gifts+"/14":" · HOME 💛");
  S.last=Date.now();store()}
+var TRIAL_URL="https://sasukeeternalsusano-dotcom.github.io/peoplevstoday/";
+function badDay(){var t=her();return t.date==="2026-11-25"||(t.date==="2026-11-26"&&t.h<12)}
 function openNote(){unlock();var i=noteIdx(),d=her().date;S.notes[d]=1;store();clocks();sfx("love");
+ if(badDay()){modal('<h3>A NOTE FOR TONIGHT</h3><div class="paper long">I heard about today. I\'m so sorry, baby girl.<br><br>You don\'t have to be okay tonight. You just have to let me look after you a little.<br><br>Oh, and Today is officially on trial. Investigator Batmed is on the case.</div><div class="sig">Doodi 💛</div><a class="go" id="case" href="'+TRIAL_URL+'" target="_blank" rel="noopener" style="text-align:center;text-decoration:none;margin-bottom:10px">Open the case ⚖️</a><button class="go" id="mk" style="background:#b4477a;box-shadow:0 4px 0 #7a2b52">Keep it 💌</button>');$("mk").onclick=closeModal;return}
  modal('<h3>NOTE #'+(i+1)+' · '+d.split("-").reverse().join(".")+'</h3><div class="paper">'+NOTES[i%NOTES.length]+'</div><div class="sig">Doodi 💛</div><button class="go" id="mk">Keep it 💌</button>');
  $("mk").onclick=closeModal}
 function modal(h){$("card").innerHTML=h;$("modal").classList.add("on")}
@@ -582,7 +586,7 @@ function eat(food){if(S.tummy>92){anim("boop",1200);say(L.full);S.tummy=100;retu
  setTimeout(function(){say(pick(L.food[food]))},700);store()}
 function squash(extra){if(has("her")&&!entering){coupleHug();HG.pre=extra||null;return}S.squash++;S.love=clamp(S.love+30);S.fun=clamp(S.fun+8);store();sfx("love");
  anim("hug",2300,{lock:true});setTimeout(function(){burst(14,dx+9,36)},600);
- var line=S.squash%10===0?"Squash number "+S.squash+". I'm keeping count, obviously.":pick(L.squash);say(extra?[].concat(extra,line):line)}
+ var line=badDay()?pick(GENTLE):S.squash%10===0?"Squash number "+S.squash+". I'm keeping count, obviously.":pick(L.squash);say(extra?[].concat(extra,line):line)}
 var game=null;
 function play(){if(S.energy<12){anim("groggy",1200);say(L.tired);return}game={r:0,score:0};S.games++;round()}
 function round(){dx=tx=has("her")?22:31;anim("fists",99999);A.res=null;say(game.r===2?"Last one. Which hand? Think carefully...":L.playStart);
@@ -661,7 +665,10 @@ return greet;}
 $("say").style.visibility="visible";$("txt").textContent="Zzz...";
 $("go").onclick=function(){if(!preStart)return;unlock();sfx("alarm");$("start").className="gone";
  preStart=false;woke=true;S.sleep=false;store();wakeT=performance.now();clocks();$("txt").textContent="";
- setTimeout(function(){sfx("win");dx=tx=31;anim("stretch",1300,{lock:true,cb:function(){var g=buildGreet();anim("cheer",900);say(g)}})},1500)};
+ setTimeout(function(){sfx("win");dx=tx=31;anim("stretch",1300,{lock:true,cb:function(){if(badDay()){bdWake();return}var g=buildGreet();anim("cheer",900);say(g)}})},1500)};
+function bdWake(){say(["Hey. I heard. Worst day ever, in your words.","Come here. Squash first, then everything else."]);
+ setTimeout(function(){if(!busy()&&!game)squash("I've got you. 💛");else say("I've got you. 💛")},5600);
+ setTimeout(function(){say(["Better? A little? Good.","Now open your note up top. ✉️ Today is officially on trial."])},11500)}
 requestAnimationFrame(loop);
 })();
 </script>
